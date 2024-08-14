@@ -1,1 +1,337 @@
-[]
+[
+    {
+        "id": "426413403f3fcf5f",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f1dc07d59b1308ae",
+        "type": "websocket-listener",
+        "path": "",
+        "wholemsg": "false"
+    },
+    {
+        "id": "12913bb0fb2948f9",
+        "type": "websocket-listener",
+        "path": "/bills",
+        "wholemsg": "false"
+    },
+    {
+        "id": "3b343acec20741d6",
+        "type": "tcp in",
+        "z": "426413403f3fcf5f",
+        "name": "[tcp:5000] inp",
+        "server": "server",
+        "host": "",
+        "port": "5000",
+        "datamode": "stream",
+        "datatype": "buffer",
+        "newline": "",
+        "topic": "",
+        "trim": false,
+        "base64": false,
+        "tls": "",
+        "x": 230,
+        "y": 80,
+        "wires": [
+            [
+                "cb0937c92488062d",
+                "40017c1142e0e883"
+            ]
+        ]
+    },
+    {
+        "id": "1c708d4a077bab54",
+        "type": "tcp out",
+        "z": "426413403f3fcf5f",
+        "name": "[tcp:5000] out",
+        "host": "",
+        "port": "",
+        "beserver": "reply",
+        "base64": false,
+        "end": false,
+        "tls": "",
+        "x": 760,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "4bb41b3c99cc58aa",
+        "type": "websocket in",
+        "z": "426413403f3fcf5f",
+        "name": "[ws] /bills",
+        "server": "12913bb0fb2948f9",
+        "client": "",
+        "x": 220,
+        "y": 220,
+        "wires": [
+            [
+                "19cb64862532105f"
+            ]
+        ]
+    },
+    {
+        "id": "19cb64862532105f",
+        "type": "websocket out",
+        "z": "426413403f3fcf5f",
+        "name": "[ws] bills (res)",
+        "server": "12913bb0fb2948f9",
+        "client": "",
+        "x": 780,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "5e750a60207b2a3e",
+        "type": "debug",
+        "z": "426413403f3fcf5f",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "cb0937c92488062d",
+        "type": "debug",
+        "z": "426413403f3fcf5f",
+        "name": "see the tcp msg",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "40017c1142e0e883",
+        "type": "function",
+        "z": "426413403f3fcf5f",
+        "name": "decode",
+        "func": "// function timestamp2date(arr) {\n//     if (arr.length < 8) {\n//         return 0;\n//     }\n//     let timestamp = (arr[0] << 56) | (arr[1] << 48) | (arr[2] << 40) | (arr[3] << 32) | (arr[4] << 24) | (arr[5] << 16) | (arr[6] << 8) | arr[7];\n//     return (timestamp);\n// }\n\n// // parameters:\n// // data: 1 Frame {length, flag, screen content}\n// // frame_screen_size: kich thuoc 1 Frame\n// function decodeScreenData_I2C(data, frame_screen_size) {\n//     const SCREEN_ADDRESS = 0x3E;\n//     const SYMBOL_TABLE = {\n//         'FA': '0',\n//         'FB': '0.',\n//         '0A': '1',\n//         '0B': '1.',\n//         'BC': '2',\n//         'BD': '2.',\n//         '9E': '3',\n//         '9F': '3.',\n//         '4E': '4',\n//         '4F': '4.',\n//         'D6': '5',\n//         'D7': '5.',\n//         'F6': '6',\n//         'F7': '6.',\n//         '8A': '7',\n//         '8B': '7.',\n//         'FE': '8',\n//         'FF': '8.',\n//         'DE': '9',\n//         'DF': '9.',\n//         '00': '',\n//         '01': '.'\n//     };\n\n//     function charValue(number) {\n//         const key = number.toString(16).toUpperCase().padStart(2, '0');\n//         if (!(key in SYMBOL_TABLE)) {\n//             return '~';  // ky tu chua giai ma duoc\n//         }\n//         return SYMBOL_TABLE[key];\n//     }\n\n//     const content_size = data[0];\n//     if (frame_screen_size !== content_size) {\n//         console.log('Frame error: Content size invalid');\n//         return {};\n//     }\n\n//     const flag = data[1];\n//     if (flag !== 0) {\n//         console.log('Frame error: Flag != 0');\n//         return {};\n//     }\n\n//     const timestamp = timestamp2date(data.slice(2, 10));\n\n//     data = data.slice(10);\n//     // if (data[0] !== SCREEN_ADDRESS) {\n//     //     return {};\n//     // }\n\n//     data = data.slice(1);\n//     const line1 = charValue(data[11]) + charValue(data[12]) + charValue(data[13]) + charValue(data[14]) + charValue(data[15]) + charValue(data[16]) + charValue(data[29]) + charValue(data[30]);\n//     const line2 = charValue(data[17]) + charValue(data[18]) + charValue(data[19]) + charValue(data[20]) + charValue(data[21]) + charValue(data[22]) + charValue(data[23]) + charValue(data[24]);\n//     const line3 = charValue(data[6]) + charValue(data[7]) + charValue(data[8]) + charValue(data[9]) + charValue(data[10]);\n\n//     console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n//     return {\n//         totalPrice: line1,\n//         volume: line2,\n//         unitPrice: line3,\n//         time: Date.now()\n//     };\n// }\n\n// function decodePacket(data) {\n//     const screen_list = [];\n//     if (data.length < 4) {\n\n//         return [];\n//     }\n\n//     const frame_number = (data[0] << 8) | data[1];\n//     const frame_size = (data[2] << 8) | data[3];\n//     const frame_screen_size = frame_size - 10;\n\n//     // if ((frame_number * frame_size + 4) != data.length) {\n            \n//     //     return [];\n//     // }\n\n//     data = data.slice(4);\n\n//     for (let i_frame = 0; i_frame < frame_number; i_frame++) {\n//         const offset = i_frame * frame_size;\n\n//         const content = decodeScreenData_I2C(data.slice(offset, offset + frame_size), frame_screen_size);\n//         if (Object.keys(content).length === 0) {\n//             continue;\n//         }\n//         screen_list.push(content);\n//     }\n\n//     return screen_list;\n// }\n\n// let contents = decodePacket(msg.payload);\n// console.log(contents);\n\nconst LED_SEGMENT_BIT_POSITION_ZCHENG = [7, 6, 5, 4, 3, 2, 1, 0];\n\nconst LED_SEGMENT_ENCODE_ZCHENG = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_ZCHENG(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_ZCHENG.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_ZCHENG[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_ZCHENG)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_ZCHENG[key];\n}\n\nfunction decodeFrame_ZCHENG(data) {\n    data = data.slice(10);\n    let line1 = val2str_ZCHENG(data[21]) + val2str_ZCHENG(data[20]) + val2str_ZCHENG(data[19]) + val2str_ZCHENG(data[18]) + val2str_ZCHENG(data[17]) + val2str_ZCHENG(data[16]) + val2str_ZCHENG(data[15]) + val2str_ZCHENG(data[14]);\n    let line2 = val2str_ZCHENG(data[13]) + val2str_ZCHENG(data[12]) + val2str_ZCHENG(data[11]) + val2str_ZCHENG(data[10]) + val2str_ZCHENG(data[9]) + val2str_ZCHENG(data[8]) + val2str_ZCHENG(data[7]) + val2str_ZCHENG(data[6]);\n    let line3 = val2str_ZCHENG(data[5]) + val2str_ZCHENG(data[4]) + val2str_ZCHENG(data[3]) + val2str_ZCHENG(data[2]) + val2str_ZCHENG(data[1]) + val2str_ZCHENG(data[0]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nconst LED_SEGMENT_BIT_POSITION_I2C = [2, 6, 5, 4, 1, 3, 7, 0];\n\nconst LED_SEGMENT_ENCODE_I2C = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"10000000\": \"-\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_I2C(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_I2C.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_I2C[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_I2C)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_I2C[key];\n}\n\nfunction decodeFrame_I2C(data) {\n    data = data.slice(1);\n    let line1 = val2str_I2C(data[11]) + val2str_I2C(data[12]) + val2str_I2C(data[13]) + val2str_I2C(data[14]) + val2str_I2C(data[15]) + val2str_I2C(data[16]) + val2str_I2C(data[29]) + val2str_I2C(data[30]);\n    let line2 = val2str_I2C(data[17]) + val2str_I2C(data[18]) + val2str_I2C(data[19]) + val2str_I2C(data[20]) + val2str_I2C(data[21]) + val2str_I2C(data[22]) + val2str_I2C(data[23]) + val2str_I2C(data[24]);\n    let line3 = val2str_I2C(data[6]) + val2str_I2C(data[7]) + val2str_I2C(data[8]) + val2str_I2C(data[9]) + val2str_I2C(data[10]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nfunction getTimestamp(arr) {\n    if (arr.length < 8) {\n        return 0;\n    }\n    return (arr[0] << 56 | arr[1] << 48 | arr[2] << 40 | arr[3] << 32 | arr[4] << 24 | arr[5] << 16 | arr[6] << 8 | arr[7]);\n}\n\nfunction decodePacket(data, decodeFunc) {\n    let screen_list = [];\n    if (data.length < 4) {\n        return [];\n    }\n\n    let frame_number = (data[0] << 8) | data[1];\n    let frame_size = (data[2] << 8) | data[3];\n    let frame_screen_size = frame_size - 10;\n\n    if ((frame_number * frame_size + 4) !== data.length) {\n        return [];\n    }\n\n    data = data.slice(4);\n\n    for (let i_frame = 0; i_frame < frame_number; i_frame++) {\n        let offset = i_frame * frame_size;\n\n        let content_size = data[offset];\n        if (frame_screen_size !== content_size) {\n            console.log('Frame error: Content size invalid' + frame_screen_size + 'vs ' + content_size);\n            continue;\n        }\n\n        let flag = data[offset + 1];\n        if (flag !== 0) {\n            console.log('Frame error: Flag != 0');\n            continue;\n        }\n\n        let timestamp = getTimestamp(data.slice(offset + 2, offset + 10));\n\n        let content = decodeFunc(data.slice(offset + 10, offset + frame_size));\n        if (Object.keys(content).length === 0) {\n            continue;\n        }\n        content['time'] = timestamp;\n        screen_list.push(content);\n    }\n\n    return screen_list;\n}\n\nlet payload;\nlet dev = global.get(\"device\");\nlet decodeFunc;\nif (dev === 'I2C_DEV') {\n   payload = decodeFrame_I2C(msg.payload)\n    // decodeFunc = decodeFrame_I2C;\n} else if (dev === 'ZCHENG_DEV') {\n    payload = decodeFrame_ZCHENG(msg.payload)\n    // decodeFunc = decodeFrame_ZCHENG;\n}\n\n// const contents = decodePacket(msg.payload, decodeFunc);\n// console.log(contents);\n\n\n msg.payload = [payload];\nmsg.device = dev;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "DateTime",
+                "module": "luxon"
+            }
+        ],
+        "x": 500,
+        "y": 100,
+        "wires": [
+            [
+                "19cb64862532105f",
+                "5e750a60207b2a3e",
+                "1c708d4a077bab54"
+            ]
+        ]
+    },
+    {
+        "id": "945742070f1898aa",
+        "type": "http in",
+        "z": "426413403f3fcf5f",
+        "name": "",
+        "url": "/:relay/on",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 340,
+        "wires": [
+            [
+                "db4ab955c8c860f5",
+                "3f71bcfe3cfb21f2"
+            ]
+        ]
+    },
+    {
+        "id": "db4ab955c8c860f5",
+        "type": "function",
+        "z": "426413403f3fcf5f",
+        "name": "relay on",
+        "func": "msg.payload = Buffer.from([Number(msg.req.params.relay), 1])\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 340,
+        "wires": [
+            [
+                "1c708d4a077bab54",
+                "2fed3ced4e8b03e7"
+            ]
+        ]
+    },
+    {
+        "id": "0cf3682115947bc2",
+        "type": "http in",
+        "z": "426413403f3fcf5f",
+        "name": "",
+        "url": "/:relay/off",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 420,
+        "wires": [
+            [
+                "558d2c559cf9eb25"
+            ]
+        ]
+    },
+    {
+        "id": "558d2c559cf9eb25",
+        "type": "function",
+        "z": "426413403f3fcf5f",
+        "name": "relay off",
+        "func": "msg.payload = Buffer.from([Number(msg.req.params.relay), 0])\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 420,
+        "wires": [
+            [
+                "1c708d4a077bab54",
+                "923c41c7ae5c4272"
+            ]
+        ]
+    },
+    {
+        "id": "3f71bcfe3cfb21f2",
+        "type": "debug",
+        "z": "426413403f3fcf5f",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.params.relay",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "923c41c7ae5c4272",
+        "type": "http response",
+        "z": "426413403f3fcf5f",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 560,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "2fed3ced4e8b03e7",
+        "type": "http response",
+        "z": "426413403f3fcf5f",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 520,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "18310d1f8e4f41fb",
+        "type": "http in",
+        "z": "426413403f3fcf5f",
+        "name": "[post] /:device",
+        "url": "/:device",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 600,
+        "wires": [
+            [
+                "d3d17101110728f5",
+                "f8c69e5d0e1100f5"
+            ]
+        ]
+    },
+    {
+        "id": "ee8e53b23229f671",
+        "type": "http response",
+        "z": "426413403f3fcf5f",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 820,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "d3d17101110728f5",
+        "type": "change",
+        "z": "426413403f3fcf5f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "device",
+                "pt": "global",
+                "to": "req.params.device",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 600,
+        "wires": [
+            [
+                "ee8e53b23229f671"
+            ]
+        ]
+    },
+    {
+        "id": "f8c69e5d0e1100f5",
+        "type": "debug",
+        "z": "426413403f3fcf5f",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.params.device",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 640,
+        "wires": []
+    }
+]
