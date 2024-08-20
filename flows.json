@@ -1,9 +1,17 @@
 [
     {
-        "id": "426413403f3fcf5f",
+        "id": "4cb885b752d53fe9",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fe06c71ed0b2ee92",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": true,
         "info": "",
         "env": []
     },
@@ -20,10 +28,66 @@
         "wholemsg": "false"
     },
     {
-        "id": "3b343acec20741d6",
+        "id": "d381a5fbe59c4361",
+        "type": "postgreSQLConfig",
+        "name": "petro_info",
+        "host": "127.0.0.1",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "petro",
+        "databaseFieldType": "str",
+        "ssl": "false",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "sensor_lab",
+        "userFieldType": "str",
+        "password": "",
+        "passwordFieldType": "str"
+    },
+    {
+        "id": "59277170bebe1f35",
+        "type": "postgreSQLConfig",
+        "name": "",
+        "host": "127.0.0.1",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "spi",
+        "databaseFieldType": "str",
+        "ssl": "false",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "sonnguyen",
+        "userFieldType": "str",
+        "password": "",
+        "passwordFieldType": "str"
+    },
+    {
+        "id": "21c779325e79f03f",
+        "type": "websocket-listener",
+        "path": "/spi",
+        "wholemsg": "true"
+    },
+    {
+        "id": "a0c15cec27f6c148",
         "type": "tcp in",
-        "z": "426413403f3fcf5f",
-        "name": "[tcp:5000] inp",
+        "z": "4cb885b752d53fe9",
+        "name": "[tcp:5000] inp - Connection to hardware",
         "server": "server",
         "host": "",
         "port": "5000",
@@ -34,19 +98,22 @@
         "trim": false,
         "base64": false,
         "tls": "",
-        "x": 230,
-        "y": 80,
+        "x": 190,
+        "y": 280,
         "wires": [
             [
-                "cb0937c92488062d",
-                "40017c1142e0e883"
+                "b979180e233c1fd5",
+                "fb8996cbb85bcf4c",
+                "08e38b1e157918a7",
+                "f96c4f22d8f17b5d",
+                "a5f856adeb0d4a05"
             ]
         ]
     },
     {
-        "id": "1c708d4a077bab54",
+        "id": "40908f4642a8c469",
         "type": "tcp out",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "[tcp:5000] out",
         "host": "",
         "port": "",
@@ -54,57 +121,40 @@
         "base64": false,
         "end": false,
         "tls": "",
-        "x": 760,
+        "x": 1200,
         "y": 440,
         "wires": []
     },
     {
-        "id": "4bb41b3c99cc58aa",
+        "id": "0f8fb3e2f8f3a818",
         "type": "websocket in",
-        "z": "426413403f3fcf5f",
-        "name": "[ws] /bills",
+        "z": "4cb885b752d53fe9",
+        "name": "[ws] /bills - Connection to UI App",
         "server": "12913bb0fb2948f9",
         "client": "",
-        "x": 220,
-        "y": 220,
+        "x": 150,
+        "y": 700,
         "wires": [
             [
-                "19cb64862532105f"
+                "5accb1d8efc0a4e7"
             ]
         ]
     },
     {
-        "id": "19cb64862532105f",
+        "id": "5accb1d8efc0a4e7",
         "type": "websocket out",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "[ws] bills (res)",
         "server": "12913bb0fb2948f9",
         "client": "",
-        "x": 780,
-        "y": 220,
+        "x": 1140,
+        "y": 700,
         "wires": []
     },
     {
-        "id": "5e750a60207b2a3e",
+        "id": "b979180e233c1fd5",
         "type": "debug",
-        "z": "426413403f3fcf5f",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 600,
-        "y": 20,
-        "wires": []
-    },
-    {
-        "id": "cb0937c92488062d",
-        "type": "debug",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "see the tcp msg",
         "active": false,
         "tosidebar": true,
@@ -114,59 +164,32 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 400,
-        "y": 40,
+        "x": 560,
+        "y": 280,
         "wires": []
     },
     {
-        "id": "40017c1142e0e883",
-        "type": "function",
-        "z": "426413403f3fcf5f",
-        "name": "decode",
-        "func": "// function timestamp2date(arr) {\n//     if (arr.length < 8) {\n//         return 0;\n//     }\n//     let timestamp = (arr[0] << 56) | (arr[1] << 48) | (arr[2] << 40) | (arr[3] << 32) | (arr[4] << 24) | (arr[5] << 16) | (arr[6] << 8) | arr[7];\n//     return (timestamp);\n// }\n\n// // parameters:\n// // data: 1 Frame {length, flag, screen content}\n// // frame_screen_size: kich thuoc 1 Frame\n// function decodeScreenData_I2C(data, frame_screen_size) {\n//     const SCREEN_ADDRESS = 0x3E;\n//     const SYMBOL_TABLE = {\n//         'FA': '0',\n//         'FB': '0.',\n//         '0A': '1',\n//         '0B': '1.',\n//         'BC': '2',\n//         'BD': '2.',\n//         '9E': '3',\n//         '9F': '3.',\n//         '4E': '4',\n//         '4F': '4.',\n//         'D6': '5',\n//         'D7': '5.',\n//         'F6': '6',\n//         'F7': '6.',\n//         '8A': '7',\n//         '8B': '7.',\n//         'FE': '8',\n//         'FF': '8.',\n//         'DE': '9',\n//         'DF': '9.',\n//         '00': '',\n//         '01': '.'\n//     };\n\n//     function charValue(number) {\n//         const key = number.toString(16).toUpperCase().padStart(2, '0');\n//         if (!(key in SYMBOL_TABLE)) {\n//             return '~';  // ky tu chua giai ma duoc\n//         }\n//         return SYMBOL_TABLE[key];\n//     }\n\n//     const content_size = data[0];\n//     if (frame_screen_size !== content_size) {\n//         console.log('Frame error: Content size invalid');\n//         return {};\n//     }\n\n//     const flag = data[1];\n//     if (flag !== 0) {\n//         console.log('Frame error: Flag != 0');\n//         return {};\n//     }\n\n//     const timestamp = timestamp2date(data.slice(2, 10));\n\n//     data = data.slice(10);\n//     // if (data[0] !== SCREEN_ADDRESS) {\n//     //     return {};\n//     // }\n\n//     data = data.slice(1);\n//     const line1 = charValue(data[11]) + charValue(data[12]) + charValue(data[13]) + charValue(data[14]) + charValue(data[15]) + charValue(data[16]) + charValue(data[29]) + charValue(data[30]);\n//     const line2 = charValue(data[17]) + charValue(data[18]) + charValue(data[19]) + charValue(data[20]) + charValue(data[21]) + charValue(data[22]) + charValue(data[23]) + charValue(data[24]);\n//     const line3 = charValue(data[6]) + charValue(data[7]) + charValue(data[8]) + charValue(data[9]) + charValue(data[10]);\n\n//     console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n//     return {\n//         totalPrice: line1,\n//         volume: line2,\n//         unitPrice: line3,\n//         time: Date.now()\n//     };\n// }\n\n// function decodePacket(data) {\n//     const screen_list = [];\n//     if (data.length < 4) {\n\n//         return [];\n//     }\n\n//     const frame_number = (data[0] << 8) | data[1];\n//     const frame_size = (data[2] << 8) | data[3];\n//     const frame_screen_size = frame_size - 10;\n\n//     // if ((frame_number * frame_size + 4) != data.length) {\n            \n//     //     return [];\n//     // }\n\n//     data = data.slice(4);\n\n//     for (let i_frame = 0; i_frame < frame_number; i_frame++) {\n//         const offset = i_frame * frame_size;\n\n//         const content = decodeScreenData_I2C(data.slice(offset, offset + frame_size), frame_screen_size);\n//         if (Object.keys(content).length === 0) {\n//             continue;\n//         }\n//         screen_list.push(content);\n//     }\n\n//     return screen_list;\n// }\n\n// let contents = decodePacket(msg.payload);\n// console.log(contents);\n\nconst LED_SEGMENT_BIT_POSITION_ZCHENG = [7, 6, 5, 4, 3, 2, 1, 0];\n\nconst LED_SEGMENT_ENCODE_ZCHENG = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_ZCHENG(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_ZCHENG.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_ZCHENG[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_ZCHENG)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_ZCHENG[key];\n}\n\nfunction decodeFrame_ZCHENG(data) {\n    data = data.slice(10);\n    let line1 = val2str_ZCHENG(data[21]) + val2str_ZCHENG(data[20]) + val2str_ZCHENG(data[19]) + val2str_ZCHENG(data[18]) + val2str_ZCHENG(data[17]) + val2str_ZCHENG(data[16]) + val2str_ZCHENG(data[15]) + val2str_ZCHENG(data[14]);\n    let line2 = val2str_ZCHENG(data[13]) + val2str_ZCHENG(data[12]) + val2str_ZCHENG(data[11]) + val2str_ZCHENG(data[10]) + val2str_ZCHENG(data[9]) + val2str_ZCHENG(data[8]) + val2str_ZCHENG(data[7]) + val2str_ZCHENG(data[6]);\n    let line3 = val2str_ZCHENG(data[5]) + val2str_ZCHENG(data[4]) + val2str_ZCHENG(data[3]) + val2str_ZCHENG(data[2]) + val2str_ZCHENG(data[1]) + val2str_ZCHENG(data[0]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nconst LED_SEGMENT_BIT_POSITION_I2C = [2, 6, 5, 4, 1, 3, 7, 0];\n\nconst LED_SEGMENT_ENCODE_I2C = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"10000000\": \"-\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_I2C(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_I2C.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_I2C[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_I2C)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_I2C[key];\n}\n\nfunction decodeFrame_I2C(data) {\n    data = data.slice(1);\n    let line1 = val2str_I2C(data[11]) + val2str_I2C(data[12]) + val2str_I2C(data[13]) + val2str_I2C(data[14]) + val2str_I2C(data[15]) + val2str_I2C(data[16]) + val2str_I2C(data[29]) + val2str_I2C(data[30]);\n    let line2 = val2str_I2C(data[17]) + val2str_I2C(data[18]) + val2str_I2C(data[19]) + val2str_I2C(data[20]) + val2str_I2C(data[21]) + val2str_I2C(data[22]) + val2str_I2C(data[23]) + val2str_I2C(data[24]);\n    let line3 = val2str_I2C(data[6]) + val2str_I2C(data[7]) + val2str_I2C(data[8]) + val2str_I2C(data[9]) + val2str_I2C(data[10]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nfunction getTimestamp(arr) {\n    if (arr.length < 8) {\n        return 0;\n    }\n    return (arr[0] << 56 | arr[1] << 48 | arr[2] << 40 | arr[3] << 32 | arr[4] << 24 | arr[5] << 16 | arr[6] << 8 | arr[7]);\n}\n\nfunction decodePacket(data, decodeFunc) {\n    let screen_list = [];\n    if (data.length < 4) {\n        return [];\n    }\n\n    let frame_number = (data[0] << 8) | data[1];\n    let frame_size = (data[2] << 8) | data[3];\n    let frame_screen_size = frame_size - 10;\n\n    if ((frame_number * frame_size + 4) !== data.length) {\n        return [];\n    }\n\n    data = data.slice(4);\n\n    for (let i_frame = 0; i_frame < frame_number; i_frame++) {\n        let offset = i_frame * frame_size;\n\n        let content_size = data[offset];\n        if (frame_screen_size !== content_size) {\n            console.log('Frame error: Content size invalid' + frame_screen_size + 'vs ' + content_size);\n            continue;\n        }\n\n        let flag = data[offset + 1];\n        if (flag !== 0) {\n            console.log('Frame error: Flag != 0');\n            continue;\n        }\n\n        let timestamp = getTimestamp(data.slice(offset + 2, offset + 10));\n\n        let content = decodeFunc(data.slice(offset + 10, offset + frame_size));\n        if (Object.keys(content).length === 0) {\n            continue;\n        }\n        content['time'] = timestamp;\n        screen_list.push(content);\n    }\n\n    return screen_list;\n}\n\nlet payload;\nlet dev = global.get(\"device\");\nlet decodeFunc;\nif (dev === 'I2C_DEV') {\n   payload = decodeFrame_I2C(msg.payload)\n    // decodeFunc = decodeFrame_I2C;\n} else if (dev === 'ZCHENG_DEV') {\n    payload = decodeFrame_ZCHENG(msg.payload)\n    // decodeFunc = decodeFrame_ZCHENG;\n}\n\n// const contents = decodePacket(msg.payload, decodeFunc);\n// console.log(contents);\n\n\n msg.payload = [payload];\nmsg.device = dev;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [
-            {
-                "var": "DateTime",
-                "module": "luxon"
-            }
-        ],
-        "x": 500,
-        "y": 100,
-        "wires": [
-            [
-                "19cb64862532105f",
-                "5e750a60207b2a3e",
-                "1c708d4a077bab54"
-            ]
-        ]
-    },
-    {
-        "id": "945742070f1898aa",
+        "id": "761f990ef00b0778",
         "type": "http in",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "",
         "url": "/:relay/on",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
-        "y": 340,
+        "x": 100,
+        "y": 840,
         "wires": [
             [
-                "db4ab955c8c860f5",
-                "3f71bcfe3cfb21f2"
+                "b6f2c9d949b9cb8e",
+                "ee8e2d5ebfce79bd"
             ]
         ]
     },
     {
-        "id": "db4ab955c8c860f5",
+        "id": "b6f2c9d949b9cb8e",
         "type": "function",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "relay on",
         "func": "msg.payload = Buffer.from([Number(msg.req.params.relay), 1])\nreturn msg;",
         "outputs": 1,
@@ -175,36 +198,36 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
-        "y": 340,
+        "x": 360,
+        "y": 840,
         "wires": [
             [
-                "1c708d4a077bab54",
-                "2fed3ced4e8b03e7"
+                "c24af12cac6d0ff7",
+                "d6ca9ab0862d550c"
             ]
         ]
     },
     {
-        "id": "0cf3682115947bc2",
+        "id": "a85fcc66da683310",
         "type": "http in",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "",
         "url": "/:relay/off",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
-        "y": 420,
+        "x": 100,
+        "y": 920,
         "wires": [
             [
-                "558d2c559cf9eb25"
+                "70b8f3dbf78ea5b3"
             ]
         ]
     },
     {
-        "id": "558d2c559cf9eb25",
+        "id": "70b8f3dbf78ea5b3",
         "type": "function",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "relay off",
         "func": "msg.payload = Buffer.from([Number(msg.req.params.relay), 0])\nreturn msg;\n",
         "outputs": 1,
@@ -213,19 +236,19 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
-        "y": 420,
+        "x": 360,
+        "y": 920,
         "wires": [
             [
-                "1c708d4a077bab54",
-                "923c41c7ae5c4272"
+                "2be28206a59beb83",
+                "0fe718721d7b279c"
             ]
         ]
     },
     {
-        "id": "3f71bcfe3cfb21f2",
+        "id": "ee8e2d5ebfce79bd",
         "type": "debug",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "debug 2",
         "active": false,
         "tosidebar": true,
@@ -235,65 +258,65 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 320,
-        "y": 300,
+        "x": 300,
+        "y": 800,
         "wires": []
     },
     {
-        "id": "923c41c7ae5c4272",
+        "id": "2be28206a59beb83",
         "type": "http response",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "",
         "statusCode": "200",
         "headers": {},
-        "x": 560,
-        "y": 520,
+        "x": 500,
+        "y": 960,
         "wires": []
     },
     {
-        "id": "2fed3ced4e8b03e7",
+        "id": "c24af12cac6d0ff7",
         "type": "http response",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "",
         "statusCode": "200",
         "headers": {},
-        "x": 520,
-        "y": 300,
+        "x": 500,
+        "y": 800,
         "wires": []
     },
     {
-        "id": "18310d1f8e4f41fb",
+        "id": "0d7c46c52f3b71d4",
         "type": "http in",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "[post] /:device",
         "url": "/:device",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 110,
-        "y": 600,
+        "x": 90,
+        "y": 1040,
         "wires": [
             [
-                "d3d17101110728f5",
-                "f8c69e5d0e1100f5"
+                "f5d20ad6bcfb8155",
+                "90606b0c4814cff6"
             ]
         ]
     },
     {
-        "id": "ee8e53b23229f671",
+        "id": "a52b12b44e98599b",
         "type": "http response",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "",
         "statusCode": "200",
         "headers": {},
-        "x": 820,
-        "y": 600,
+        "x": 680,
+        "y": 1040,
         "wires": []
     },
     {
-        "id": "d3d17101110728f5",
+        "id": "f5d20ad6bcfb8155",
         "type": "change",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "",
         "rules": [
             {
@@ -309,20 +332,20 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 410,
-        "y": 600,
+        "x": 390,
+        "y": 1040,
         "wires": [
             [
-                "ee8e53b23229f671"
+                "a52b12b44e98599b"
             ]
         ]
     },
     {
-        "id": "f8c69e5d0e1100f5",
+        "id": "90606b0c4814cff6",
         "type": "debug",
-        "z": "426413403f3fcf5f",
+        "z": "4cb885b752d53fe9",
         "name": "debug 3",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -330,8 +353,2689 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
+        "x": 260,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "fb8996cbb85bcf4c",
+        "type": "switch",
+        "z": "4cb885b752d53fe9",
+        "name": "device 1 switch",
+        "property": "device",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "I2C_DEV",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 560,
+        "y": 400,
+        "wires": [
+            [
+                "fabd833241a87c3d",
+                "a1ad8709baf2b639"
+            ]
+        ]
+    },
+    {
+        "id": "08e38b1e157918a7",
+        "type": "switch",
+        "z": "4cb885b752d53fe9",
+        "name": "device 2 switch",
+        "property": "device",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ZCHENG_DEV",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 560,
+        "y": 480,
+        "wires": [
+            [
+                "52bb7f76631f8348",
+                "d3c16bf867101ac3"
+            ]
+        ]
+    },
+    {
+        "id": "fabd833241a87c3d",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "device 1 decode",
+        "func": "\nconst LED_SEGMENT_BIT_POSITION_ZCHENG = [7, 6, 5, 4, 3, 2, 1, 0];\n\nconst LED_SEGMENT_ENCODE_ZCHENG = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_ZCHENG(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_ZCHENG.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_ZCHENG[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_ZCHENG)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_ZCHENG[key];\n}\n\nfunction decodeFrame_ZCHENG(data) {\n    console.log('decodeFrame_ZCHENG');\n    data = data.slice(10);\n    let line1 = val2str_ZCHENG(data[21]) + val2str_ZCHENG(data[20]) + val2str_ZCHENG(data[19]) + val2str_ZCHENG(data[18]) + val2str_ZCHENG(data[17]) + val2str_ZCHENG(data[16]) + val2str_ZCHENG(data[15]) + val2str_ZCHENG(data[14]);\n    let line2 = val2str_ZCHENG(data[13]) + val2str_ZCHENG(data[12]) + val2str_ZCHENG(data[11]) + val2str_ZCHENG(data[10]) + val2str_ZCHENG(data[9]) + val2str_ZCHENG(data[8]) + val2str_ZCHENG(data[7]) + val2str_ZCHENG(data[6]);\n    let line3 = val2str_ZCHENG(data[5]) + val2str_ZCHENG(data[4]) + val2str_ZCHENG(data[3]) + val2str_ZCHENG(data[2]) + val2str_ZCHENG(data[1]) + val2str_ZCHENG(data[0]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nconst LED_SEGMENT_BIT_POSITION_I2C = [2, 6, 5, 4, 1, 3, 7, 0];\n\nconst LED_SEGMENT_ENCODE_I2C = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"10000000\": \"-\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_I2C(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_I2C.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_I2C[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_I2C)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_I2C[key];\n}\n\nfunction decodeFrame_I2C(data) {\n    console.log('decodeFrame_I2C');\n\n    data = data.slice(1);\n    let line1 = val2str_I2C(data[11]) + val2str_I2C(data[12]) + val2str_I2C(data[13]) + val2str_I2C(data[14]) + val2str_I2C(data[15]) + val2str_I2C(data[16]) + val2str_I2C(data[29]) + val2str_I2C(data[30]);\n    let line2 = val2str_I2C(data[17]) + val2str_I2C(data[18]) + val2str_I2C(data[19]) + val2str_I2C(data[20]) + val2str_I2C(data[21]) + val2str_I2C(data[22]) + val2str_I2C(data[23]) + val2str_I2C(data[24]);\n    let line3 = val2str_I2C(data[6]) + val2str_I2C(data[7]) + val2str_I2C(data[8]) + val2str_I2C(data[9]) + val2str_I2C(data[10]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nfunction getTimestamp(arr) {\n    return String(Date.now());\n    // if (arr.length < 8) {\n    //     return 0;\n    // }\n    // return  1000 * (arr[0] << 56 | arr[1] << 48 | arr[2] << 40 | arr[3] << 32 | arr[4] << 24 | arr[5] << 16 | arr[6] << 8 | arr[7]);\n}\n\nfunction decodePacket(data, decodeFunc) {\n    let screen_list = [];\n    if (data.length < 4) {\n        return [];\n    }\n\n    let frame_number = (data[0] << 8) | data[1];\n    let frame_size = (data[2] << 8) | data[3];\n    let frame_screen_size = frame_size - 10;\n\n    if ((frame_number * frame_size + 4) !== data.length) {\n        console.log('Error size:' + frame_number + 'vs ' + frame_size);\n\n        return [];\n    }\n\n    data = data.slice(4);\n\n    for (let i_frame = 0; i_frame < frame_number; i_frame++) {\n        let offset = i_frame * frame_size;\n\n        let content_size = data[offset];\n        if (frame_screen_size !== content_size) {\n            console.log('Frame error: Content size invalid' + frame_screen_size + 'vs ' + content_size);\n            continue;\n        }\n\n        let flag = data[offset + 1];\n        if (flag !== 0) {\n            console.log('Frame error: Flag != 0');\n            continue;\n        }\n\n        let timestamp = getTimestamp(data.slice(offset + 2, offset + 10));\n\n        let content = decodeFunc(data.slice(offset + 10, offset + frame_size));\n        if (Object.keys(content).length === 0) {\n            continue;\n        }\n        content['time'] = timestamp;\n        screen_list.push(content);\n    }\n\n    return screen_list;\n}\n\nlet payload;\nlet dev = 'I2C_DEV';\n//console.log(dev);\nif (dev === 'I2C_DEV') {\n//    payload = decodeFrame_I2C(msg.payload)\n    payload = decodePacket(msg.payload, decodeFrame_I2C);\n} else if (dev === 'ZCHENG_DEV') {\n    // payload = decodeFrame_ZCHENG(msg.payload)\n    payload = decodePacket(msg.payload, decodeFrame_ZCHENG);\n}\n\nconsole.log(payload);\n\nmsg.payload = payload;\nmsg.device = dev;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 400,
+        "wires": [
+            [
+                "40908f4642a8c469",
+                "e7421f46b56dc8dc"
+            ]
+        ]
+    },
+    {
+        "id": "52bb7f76631f8348",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "device 2 decode",
+        "func": "\nconst LED_SEGMENT_BIT_POSITION_ZCHENG = [6, 5, 4, 3, 2, 1, 0, 7];\n\nconst LED_SEGMENT_ENCODE_ZCHENG = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_ZCHENG(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_ZCHENG.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_ZCHENG[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_ZCHENG)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_ZCHENG[key];\n}\n\nfunction decodeFrame_ZCHENG(data) {\n    console.log('decodeFrame_ZCHENG');\n    //let data = dataraw.slice(10);\n    let line1 = val2str_ZCHENG(data[21]) + val2str_ZCHENG(data[20]) + val2str_ZCHENG(data[19]) + val2str_ZCHENG(data[18]) + val2str_ZCHENG(data[17]) + val2str_ZCHENG(data[16]) + val2str_ZCHENG(data[15]) + val2str_ZCHENG(data[14]);\n    let line2 = val2str_ZCHENG(data[13]) + val2str_ZCHENG(data[12]) + val2str_ZCHENG(data[11]) + val2str_ZCHENG(data[10]) + val2str_ZCHENG(data[9]) + val2str_ZCHENG(data[8]) + val2str_ZCHENG(data[7]) + val2str_ZCHENG(data[6]);\n    let line3 = val2str_ZCHENG(data[5]) + val2str_ZCHENG(data[4]) + val2str_ZCHENG(data[3]) + val2str_ZCHENG(data[2]) + val2str_ZCHENG(data[1]) + val2str_ZCHENG(data[0]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nconst LED_SEGMENT_BIT_POSITION_I2C = [2, 6, 5, 4, 1, 3, 7, 0];\n\nconst LED_SEGMENT_ENCODE_I2C = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"10000000\": \"-\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_I2C(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_I2C.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_I2C[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_I2C)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_I2C[key];\n}\n\nfunction decodeFrame_I2C(data) {\n    console.log('decodeFrame_I2C');\n\n    data = data.slice(1);\n    let line1 = val2str_I2C(data[11]) + val2str_I2C(data[12]) + val2str_I2C(data[13]) + val2str_I2C(data[14]) + val2str_I2C(data[15]) + val2str_I2C(data[16]) + val2str_I2C(data[29]) + val2str_I2C(data[30]);\n    let line2 = val2str_I2C(data[17]) + val2str_I2C(data[18]) + val2str_I2C(data[19]) + val2str_I2C(data[20]) + val2str_I2C(data[21]) + val2str_I2C(data[22]) + val2str_I2C(data[23]) + val2str_I2C(data[24]);\n    let line3 = val2str_I2C(data[6]) + val2str_I2C(data[7]) + val2str_I2C(data[8]) + val2str_I2C(data[9]) + val2str_I2C(data[10]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nfunction getTimestamp(arr) {\n    return String(Date.now());\n    // if (arr.length < 8) {\n    //     return 0;\n    // }\n    // return  1000 * (arr[0] << 56 | arr[1] << 48 | arr[2] << 40 | arr[3] << 32 | arr[4] << 24 | arr[5] << 16 | arr[6] << 8 | arr[7]);\n}\n\nfunction decodePacket(data, decodeFunc) {\n    let screen_list = [];\n    if (data.length < 4) {\n        return [];\n    }\n\n    let frame_number = (data[0] << 8) | data[1];\n    let frame_size = (data[2] << 8) | data[3];\n    let frame_screen_size = frame_size - 10;\n\n    if ((frame_number * frame_size + 4) !== data.length) {\n        console.log('Error size:' + frame_number + 'vs ' + frame_size);\n\n        return [];\n    }\n\n    data = data.slice(4);\n\n    for (let i_frame = 0; i_frame < frame_number; i_frame++) {\n        let offset = i_frame * frame_size;\n\n        let content_size = data[offset];\n        if (frame_screen_size !== content_size) {\n            console.log('Frame error: Content size invalid' + frame_screen_size + 'vs ' + content_size);\n            continue;\n        }\n\n        let flag = data[offset + 1];\n        if (flag !== 0) {\n            console.log('Frame error: Flag != 0');\n            continue;\n        }\n\n        let timestamp = getTimestamp(data.slice(offset + 2, offset + 10));\n\n        let content = decodeFunc(data.slice(offset + 10, offset + frame_size));\n        if (Object.keys(content).length === 0) {\n            continue;\n        }\n        content['time'] = timestamp;\n        screen_list.push(content);\n    }\n\n    return screen_list;\n}\n\nlet payload;\nlet dev = 'ZCHENG_DEV';\n//console.log(dev);\nif (dev === 'I2C_DEV') {\n//    payload = decodeFrame_I2C(msg.payload)\n    payload = decodePacket(msg.payload, decodeFrame_I2C);\n} else if (dev === 'ZCHENG_DEV') {\n    // payload = decodeFrame_ZCHENG(msg.payload)\n    payload = decodePacket(msg.payload, decodeFrame_ZCHENG);\n}\n\nconsole.log(payload);\n\nmsg.payload = payload;\nmsg.device = dev;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "DateTime",
+                "module": "luxon"
+            }
+        ],
+        "x": 820,
+        "y": 480,
+        "wires": [
+            [
+                "40908f4642a8c469",
+                "59d4d8a583d88a32"
+            ]
+        ]
+    },
+    {
+        "id": "88462d6d7810077e",
+        "type": "file",
+        "z": "4cb885b752d53fe9",
+        "name": "device 1 log",
+        "filename": "C:\\Users\\Admin\\OneDrive\\Desktop\\device1.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1090,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a1ad8709baf2b639",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "encode data 1",
+        "func": "let time = new Date().toISOString().split('T')[1];\nlet data = msg.payload.toString('hex').toUpperCase();\n\nmsg.payload = time + data;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 340,
+        "wires": [
+            [
+                "88462d6d7810077e"
+            ]
+        ]
+    },
+    {
+        "id": "4f7f7915a02cb428",
+        "type": "file",
+        "z": "4cb885b752d53fe9",
+        "name": "device 1 log",
+        "filename": "C:\\Users\\Admin\\OneDrive\\Desktop\\device2.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1110,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d3c16bf867101ac3",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "encode data 2",
+        "func": "let time = new Date().toISOString().split('T')[1];\nlet data = msg.payload.toString('hex').toUpperCase();\n\nmsg.payload = time + data;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 540,
+        "wires": [
+            [
+                "4f7f7915a02cb428"
+            ]
+        ]
+    },
+    {
+        "id": "d6ca9ab0862d550c",
+        "type": "link out",
+        "z": "4cb885b752d53fe9",
+        "name": "relay-on signal",
+        "mode": "link",
+        "links": [
+            "e32da46999f35920"
+        ],
+        "x": 495,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "e32da46999f35920",
+        "type": "link in",
+        "z": "4cb885b752d53fe9",
+        "name": "[tcp:5000] response",
+        "links": [
+            "0fe718721d7b279c",
+            "d6ca9ab0862d550c"
+        ],
+        "x": 1095,
+        "y": 480,
+        "wires": [
+            [
+                "40908f4642a8c469",
+                "2ebdb4a54f33b13e"
+            ]
+        ]
+    },
+    {
+        "id": "2ebdb4a54f33b13e",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "Link in log",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "0fe718721d7b279c",
+        "type": "link out",
+        "z": "4cb885b752d53fe9",
+        "name": "relay off signal",
+        "mode": "link",
+        "links": [
+            "e32da46999f35920"
+        ],
+        "x": 495,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "28ce199eb7d48320",
+        "type": "link in",
+        "z": "4cb885b752d53fe9",
+        "name": "ws /bills response",
+        "links": [
+            "59d4d8a583d88a32",
+            "e7421f46b56dc8dc"
+        ],
+        "x": 1035,
+        "y": 740,
+        "wires": [
+            [
+                "5accb1d8efc0a4e7"
+            ]
+        ]
+    },
+    {
+        "id": "e7421f46b56dc8dc",
+        "type": "link out",
+        "z": "4cb885b752d53fe9",
+        "name": "decoded msg of device 1",
+        "mode": "link",
+        "links": [
+            "28ce199eb7d48320"
+        ],
+        "x": 945,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "59d4d8a583d88a32",
+        "type": "link out",
+        "z": "4cb885b752d53fe9",
+        "name": "decoded msg for device 2",
+        "mode": "link",
+        "links": [
+            "28ce199eb7d48320"
+        ],
+        "x": 945,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "f4ed8830963331b0",
+        "type": "inject",
+        "z": "4cb885b752d53fe9",
+        "name": "Database initializations",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "c60975ce05358858"
+            ]
+        ]
+    },
+    {
+        "id": "c60975ce05358858",
+        "type": "postgresql",
+        "z": "4cb885b752d53fe9",
+        "name": "init spi raw db",
+        "query": "CREATE TABLE IF NOT EXISTS spi_raw(\n    id UUID PRIMARY KEY,\n    received_timestamp BIGINT,\n    buffer_arr SMALLINT[],\n    decode_error BOOLEAN,\n    logic_error BOOLEAN,\n    note text\n    \n);",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 420,
+        "y": 80,
+        "wires": [
+            [
+                "83d15a27a33d4966"
+            ]
+        ]
+    },
+    {
+        "id": "83d15a27a33d4966",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "init spi raw db",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "404648c376d6ca25",
+        "type": "websocket in",
+        "z": "4cb885b752d53fe9",
+        "name": "",
+        "server": "21c779325e79f03f",
+        "client": "",
+        "x": 80,
+        "y": 1340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "71d4b97001d8b3c0",
+        "type": "websocket out",
+        "z": "4cb885b752d53fe9",
+        "name": "[ws] /spi (res)",
+        "server": "21c779325e79f03f",
+        "client": "",
+        "x": 1150,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "d703c9c03817390f",
+        "type": "link in",
+        "z": "4cb885b752d53fe9",
+        "name": "[ws /spi] response",
+        "links": [
+            "aa6ebd2d391b487b"
+        ],
+        "x": 1045,
+        "y": 1320,
+        "wires": [
+            [
+                "71d4b97001d8b3c0"
+            ]
+        ]
+    },
+    {
+        "id": "35f133d03ba9bbba",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "get timestamp",
+        "func": "msg.payload = [...msg.payload].join(',')\nmsg.payload = `{${msg.payload}}`\nmsg.receivedTime = Date.now()\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 1180,
+        "wires": [
+            [
+                "dfb0849ad649ad3a",
+                "ccd5cbc877c8be29"
+            ]
+        ]
+    },
+    {
+        "id": "dfb0849ad649ad3a",
+        "type": "postgresql",
+        "z": "4cb885b752d53fe9",
+        "name": "Add spi raw content",
+        "query": "INSERT INTO spi_raw \nVALUES (\n    gen_random_uuid (),\n    {{msg.receivedTime}}, \n    '{{msg.payload}}',\n    FALSE,\n    FALSE,\n    ''\n)\nRETURNING id, received_timestamp, buffer_arr, decode_error, logic_error, note\n",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 550,
+        "y": 1180,
+        "wires": [
+            [
+                "776d6ea478a176a4"
+            ]
+        ]
+    },
+    {
+        "id": "999cf5b21ca34d52",
+        "type": "catch",
+        "z": "4cb885b752d53fe9",
+        "name": "[catch] add spi raw content",
+        "scope": [
+            "dfb0849ad649ad3a"
+        ],
+        "uncaught": false,
+        "x": 550,
+        "y": 1240,
+        "wires": [
+            [
+                "e96b95dfa781ad58",
+                "bb1e8ce756802fc9"
+            ]
+        ]
+    },
+    {
+        "id": "e96b95dfa781ad58",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "add spi exception",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "aa6ebd2d391b487b",
+        "type": "link out",
+        "z": "4cb885b752d53fe9",
+        "name": "noti spi adding",
+        "mode": "link",
+        "links": [
+            "d703c9c03817390f"
+        ],
+        "x": 925,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "f96c4f22d8f17b5d",
+        "type": "link out",
+        "z": "4cb885b752d53fe9",
+        "name": "tcp msg in ",
+        "mode": "link",
+        "links": [
+            "b9cab7636c32dff6"
+        ],
+        "x": 385,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "a5f856adeb0d4a05",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "received buffer",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b9cab7636c32dff6",
+        "type": "link in",
+        "z": "4cb885b752d53fe9",
+        "name": "receive buffer from tcp port",
+        "links": [
+            "f96c4f22d8f17b5d"
+        ],
+        "x": 205,
+        "y": 1180,
+        "wires": [
+            [
+                "35f133d03ba9bbba"
+            ]
+        ]
+    },
+    {
+        "id": "ccd5cbc877c8be29",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "int arr",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "776d6ea478a176a4",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "set res",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 1180,
+        "wires": [
+            [
+                "aa6ebd2d391b487b",
+                "822fe65a92c2119a"
+            ]
+        ]
+    },
+    {
+        "id": "bb1e8ce756802fc9",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "set erro res",
+        "func": "msg.payload = \"error\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 1220,
+        "wires": [
+            [
+                "aa6ebd2d391b487b"
+            ]
+        ]
+    },
+    {
+        "id": "88863c278c57c63a",
+        "type": "http in",
+        "z": "4cb885b752d53fe9",
+        "name": "[get] /spi/latest/:number",
+        "url": "/spi/latest/:number",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 1620,
+        "wires": [
+            [
+                "a833732813b79290",
+                "b7fbcf25bc9c087c"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "3833826d2f0e2e34",
+        "type": "postgresql",
+        "z": "4cb885b752d53fe9",
+        "name": "read latest spi data ",
+        "query": "SELECT * FROM spi_raw \nWHERE \nreceived_timestamp<={{msg.payload.timeEnd}}\nAND\nreceived_timestamp>={{msg.payload.timeBegin}}\nORDER BY received_timestamp DESC \nLIMIT {{msg.req.params.number}}\n; ",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 590,
+        "y": 1620,
+        "wires": [
+            [
+                "dda6fd2a9cf11927",
+                "ecc4841a53304cc1"
+            ]
+        ]
+    },
+    {
+        "id": "eb1c30886d21f9f1",
+        "type": "catch",
+        "z": "4cb885b752d53fe9",
+        "name": "[read spi data] failed",
+        "scope": [
+            "3833826d2f0e2e34"
+        ],
+        "uncaught": false,
+        "x": 670,
+        "y": 1680,
+        "wires": [
+            [
+                "4cf270a5df8263d5",
+                "dda6fd2a9cf11927"
+            ]
+        ]
+    },
+    {
+        "id": "dda6fd2a9cf11927",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "4cf270a5df8263d5",
+        "type": "change",
+        "z": "4cb885b752d53fe9",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 900,
+        "y": 1680,
+        "wires": [
+            [
+                "bbf305370fdb192c"
+            ]
+        ]
+    },
+    {
+        "id": "ecc4841a53304cc1",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1080,
+        "y": 1620,
+        "wires": []
+    },
+    {
+        "id": "bbf305370fdb192c",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1070,
+        "y": 1680,
+        "wires": []
+    },
+    {
+        "id": "1d67a7ca9b16ace4",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 13",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "a833732813b79290",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "b7fbcf25bc9c087c",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "extract timestamps",
+        "func": "\nlet timeBegin = msg.req.query.begin ? msg.req.query.begin : 0\nlet timeEnd = msg.req.query.end ? (msg.req.query.end ): Date.now()\n\nmsg.payload = {\n    timeBegin,\n    timeEnd\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 1620,
+        "wires": [
+            [
+                "3833826d2f0e2e34"
+            ]
+        ]
+    },
+    {
+        "id": "4c4e5e43f7406981",
+        "type": "http in",
+        "z": "4cb885b752d53fe9",
+        "name": "[put] /spi/:id",
+        "url": "/spi/:id",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 2060,
+        "wires": [
+            [
+                "59a7bcb134316215",
+                "f5cb08da89924786",
+                "c5b4ac07a369e101",
+                "ac5942aab3494a28"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "4e39f17933d4108a",
+        "type": "postgresql",
+        "z": "4cb885b752d53fe9",
+        "name": "update spi's decode_error",
+        "query": "UPDATE spi_raw\nSET decode_error={{msg.payload.decodeError}}\nWHERE id='{{msg.req.params.id}}';",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 730,
+        "y": 2080,
+        "wires": [
+            [
+                "4a9b79168af73063",
+                "2f84664b77478f91"
+            ]
+        ]
+    },
+    {
+        "id": "952ba4679873507d",
+        "type": "catch",
+        "z": "4cb885b752d53fe9",
+        "name": "[update spi's decode_error] failed",
+        "scope": [
+            "4e39f17933d4108a"
+        ],
+        "uncaught": false,
+        "x": 770,
+        "y": 2140,
+        "wires": [
+            [
+                "9eb0f605737506d8",
+                "4a9b79168af73063"
+            ]
+        ]
+    },
+    {
+        "id": "4a9b79168af73063",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "9eb0f605737506d8",
+        "type": "change",
+        "z": "4cb885b752d53fe9",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1020,
+        "y": 2140,
+        "wires": [
+            [
+                "624dab3d96f0caee"
+            ]
+        ]
+    },
+    {
+        "id": "624dab3d96f0caee",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1190,
+        "y": 2140,
+        "wires": []
+    },
+    {
+        "id": "447705dc5cf73bd7",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 15",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1200,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "59a7bcb134316215",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "f5cb08da89924786",
+        "type": "switch",
+        "z": "4cb885b752d53fe9",
+        "name": "check for decodeError",
+        "property": "payload.decodeError",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "boolean",
+                "vt": "boolean"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 440,
+        "y": 2080,
+        "wires": [
+            [
+                "4e39f17933d4108a"
+            ]
+        ]
+    },
+    {
+        "id": "703824cb6ee5b81d",
+        "type": "postgresql",
+        "z": "4cb885b752d53fe9",
+        "name": "update spi's logic_error",
+        "query": "UPDATE spi_raw\n\nSET logic_error={{msg.payload.logicError}}\n\nWHERE id='{{msg.req.params.id}}';",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 730,
+        "y": 2300,
+        "wires": [
+            [
+                "1bb7a1912cc33f0b",
+                "9543b61797c555d0"
+            ]
+        ]
+    },
+    {
+        "id": "822cf6c112986bba",
+        "type": "catch",
+        "z": "4cb885b752d53fe9",
+        "name": "[update spi's logic_error] failed",
+        "scope": [
+            "703824cb6ee5b81d"
+        ],
+        "uncaught": false,
+        "x": 760,
+        "y": 2360,
+        "wires": [
+            [
+                "2372054408ed6b9a",
+                "1bb7a1912cc33f0b"
+            ]
+        ]
+    },
+    {
+        "id": "1bb7a1912cc33f0b",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 2240,
+        "wires": []
+    },
+    {
+        "id": "2372054408ed6b9a",
+        "type": "change",
+        "z": "4cb885b752d53fe9",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1020,
+        "y": 2360,
+        "wires": [
+            [
+                "775f74c39f63b49b"
+            ]
+        ]
+    },
+    {
+        "id": "775f74c39f63b49b",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1190,
+        "y": 2360,
+        "wires": []
+    },
+    {
+        "id": "8d43c532b918bd81",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 17",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1200,
+        "y": 2240,
+        "wires": []
+    },
+    {
+        "id": "ac5942aab3494a28",
+        "type": "switch",
+        "z": "4cb885b752d53fe9",
+        "name": "check for logicError",
+        "property": "payload.logicError",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "boolean",
+                "vt": "boolean"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 430,
+        "y": 2300,
+        "wires": [
+            [
+                "703824cb6ee5b81d"
+            ]
+        ]
+    },
+    {
+        "id": "c6604fe4ac26806c",
+        "type": "postgresql",
+        "z": "4cb885b752d53fe9",
+        "name": "update spi's note",
+        "query": "UPDATE spi_raw\n\nSET note='{{msg.payload.note}}'\n\nWHERE id='{{msg.req.params.id}}';",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 710,
+        "y": 2520,
+        "wires": [
+            [
+                "0956adcba6df4b6f",
+                "670885e94e1e3cbd"
+            ]
+        ]
+    },
+    {
+        "id": "ba504c990f1bf190",
+        "type": "catch",
+        "z": "4cb885b752d53fe9",
+        "name": "[update spi's note failed",
+        "scope": [
+            "c6604fe4ac26806c"
+        ],
+        "uncaught": false,
+        "x": 740,
+        "y": 2580,
+        "wires": [
+            [
+                "25552ede1e336149",
+                "0956adcba6df4b6f"
+            ]
+        ]
+    },
+    {
+        "id": "0956adcba6df4b6f",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 2460,
+        "wires": []
+    },
+    {
+        "id": "25552ede1e336149",
+        "type": "change",
+        "z": "4cb885b752d53fe9",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1020,
+        "y": 2580,
+        "wires": [
+            [
+                "1ffbf7d2ca0784ac"
+            ]
+        ]
+    },
+    {
+        "id": "1ffbf7d2ca0784ac",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1190,
+        "y": 2580,
+        "wires": []
+    },
+    {
+        "id": "4e8a3c8ae4a582bb",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 18",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1200,
+        "y": 2460,
+        "wires": []
+    },
+    {
+        "id": "c5b4ac07a369e101",
+        "type": "switch",
+        "z": "4cb885b752d53fe9",
+        "name": "check for note",
+        "property": "payload.note",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "string",
+                "vt": "string"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 420,
+        "y": 2520,
+        "wires": [
+            [
+                "c6604fe4ac26806c"
+            ]
+        ]
+    },
+    {
+        "id": "670885e94e1e3cbd",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1200,
+        "y": 2520,
+        "wires": []
+    },
+    {
+        "id": "9543b61797c555d0",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1200,
+        "y": 2300,
+        "wires": []
+    },
+    {
+        "id": "2f84664b77478f91",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1200,
+        "y": 2080,
+        "wires": []
+    },
+    {
+        "id": "0d3d0b6f3d9e39bf",
+        "type": "http in",
+        "z": "4cb885b752d53fe9",
+        "name": "[del] /spi/:id",
+        "url": "/spi/:id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 2780,
+        "wires": [
+            [
+                "927b1fe3c1408484",
+                "3c636b95995ab6fd"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "3c636b95995ab6fd",
+        "type": "postgresql",
+        "z": "4cb885b752d53fe9",
+        "name": "delete record",
+        "query": "DELETE FROM spi_raw \nWHERE id='{{msg.req.params.id}}';",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 630,
+        "y": 2780,
+        "wires": [
+            [
+                "a516f72dd936dc9e",
+                "fe82015123a652d5"
+            ]
+        ]
+    },
+    {
+        "id": "71751c5ce3d2cf80",
+        "type": "catch",
+        "z": "4cb885b752d53fe9",
+        "name": "[delete record] failed",
+        "scope": [
+            "3c636b95995ab6fd"
+        ],
+        "uncaught": false,
+        "x": 670,
+        "y": 2840,
+        "wires": [
+            [
+                "e2f08632f94a24fc",
+                "a516f72dd936dc9e"
+            ]
+        ]
+    },
+    {
+        "id": "a516f72dd936dc9e",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 2720,
+        "wires": []
+    },
+    {
+        "id": "e2f08632f94a24fc",
+        "type": "change",
+        "z": "4cb885b752d53fe9",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 960,
+        "y": 2840,
+        "wires": [
+            [
+                "c886d99f9b282554"
+            ]
+        ]
+    },
+    {
+        "id": "c886d99f9b282554",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1130,
+        "y": 2840,
+        "wires": []
+    },
+    {
+        "id": "90254f5b89739a60",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 19",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 2720,
+        "wires": []
+    },
+    {
+        "id": "927b1fe3c1408484",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 2740,
+        "wires": []
+    },
+    {
+        "id": "fe82015123a652d5",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1140,
+        "y": 2780,
+        "wires": []
+    },
+    {
+        "id": "c6d52bb93261c9ab",
+        "type": "http in",
+        "z": "4cb885b752d53fe9",
+        "name": "[get] /spi/oldest/:number",
+        "url": "/spi/oldest/:number",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 1860,
+        "wires": [
+            [
+                "d93c9741cebbc2bc",
+                "4db2e22011de45ea"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "f42df2d8c1eed360",
+        "type": "postgresql",
+        "z": "4cb885b752d53fe9",
+        "name": "read latest spi data ",
+        "query": "SELECT * FROM spi_raw \nWHERE \nreceived_timestamp<={{msg.payload.timeEnd}}\nAND\nreceived_timestamp>={{msg.payload.timeBegin}}\nORDER BY received_timestamp ASC \nLIMIT {{msg.req.params.number}}\n; ",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 610,
+        "y": 1860,
+        "wires": [
+            [
+                "a3d14a8772827716",
+                "02f8a9d44bb9ba51"
+            ]
+        ]
+    },
+    {
+        "id": "488e3a41de942a41",
+        "type": "catch",
+        "z": "4cb885b752d53fe9",
+        "name": "[read spi data] failed",
+        "scope": [
+            "f42df2d8c1eed360"
+        ],
+        "uncaught": false,
+        "x": 690,
+        "y": 1920,
+        "wires": [
+            [
+                "c634a10081a3f1b4",
+                "a3d14a8772827716"
+            ]
+        ]
+    },
+    {
+        "id": "a3d14a8772827716",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "c634a10081a3f1b4",
+        "type": "change",
+        "z": "4cb885b752d53fe9",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 920,
+        "y": 1920,
+        "wires": [
+            [
+                "b95630cb7aef0d63"
+            ]
+        ]
+    },
+    {
+        "id": "02f8a9d44bb9ba51",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1100,
+        "y": 1860,
+        "wires": []
+    },
+    {
+        "id": "b95630cb7aef0d63",
+        "type": "http response",
+        "z": "4cb885b752d53fe9",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1090,
+        "y": 1920,
+        "wires": []
+    },
+    {
+        "id": "2313b449cd375c91",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 21",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "d93c9741cebbc2bc",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 1820,
+        "wires": []
+    },
+    {
+        "id": "4db2e22011de45ea",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "extract timestamps",
+        "func": "\nlet timeBegin = msg.req.query.begin ? msg.req.query.begin : 0\nlet timeEnd = msg.req.query.end ? (msg.req.query.end ): Date.now()\n\nmsg.payload = {\n    timeBegin,\n    timeEnd\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 1860,
+        "wires": [
+            [
+                "f42df2d8c1eed360"
+            ]
+        ]
+    },
+    {
+        "id": "822fe65a92c2119a",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 23",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "8b9b5d7230cb41fc",
+        "type": "http in",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[get] /home",
+        "url": "/home",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "132523e104d35e79"
+            ]
+        ]
+    },
+    {
+        "id": "132523e104d35e79",
+        "type": "change",
+        "z": "fe06c71ed0b2ee92",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"message\":\"hello world\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 180,
+        "wires": [
+            [
+                "bad3e88adb0af605",
+                "afd637589be5eb12"
+            ]
+        ]
+    },
+    {
+        "id": "bad3e88adb0af605",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Hello world",
+        "statusCode": "200",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "x": 570,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "afd637589be5eb12",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "debug 7",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "77322cc4aeb42d4e",
+        "type": "postgresql",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Create TABLES if not exists",
+        "query": "CREATE TABLE IF NOT EXISTS devices (\n    device_id UUID ,\n    name TEXT NOT NULL UNIQUE,\n    description TEXT,\n    PRIMARY KEY(device_id)\n);\n\nCREATE TABLE IF NOT EXISTS spi_raw (\n    datum_id UUID,\n    spi_content text,\n    device_id UUID,\n    timestamp_ms BIGINT,\n    PRIMARY KEY(datum_id),\n    CONSTRAINT fk_device_id FOREIGN KEY (device_id) REFERENCES devices(device_id)\n\n)",
+        "postgreSQLConfig": "59277170bebe1f35",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 420,
+        "y": 60,
+        "wires": [
+            [
+                "4784c45dfbdc4097"
+            ]
+        ]
+    },
+    {
+        "id": "4784c45dfbdc4097",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "init db",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "880ca663792ae6df",
+        "type": "inject",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Initialization",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 60,
+        "wires": [
+            [
+                "77322cc4aeb42d4e"
+            ]
+        ]
+    },
+    {
+        "id": "afceed5507c08384",
+        "type": "http in",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[post] /device",
+        "url": "/device",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "38c18bcdbed3d8f4"
+            ]
+        ],
+        "info": "# Add a device"
+    },
+    {
+        "id": "8f3bd0cb384893d9",
+        "type": "catch",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[Add a new device] failed",
+        "scope": [
+            "38c18bcdbed3d8f4"
+        ],
+        "uncaught": false,
+        "x": 570,
+        "y": 380,
+        "wires": [
+            [
+                "433b4e11368b8e05"
+            ]
+        ]
+    },
+    {
+        "id": "65d1074b32bd5dfb",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 950,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "433b4e11368b8e05",
+        "type": "change",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 780,
+        "y": 380,
+        "wires": [
+            [
+                "65d1074b32bd5dfb"
+            ]
+        ]
+    },
+    {
+        "id": "2c764f81efc7dc6e",
+        "type": "http in",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[get] /devices/all",
+        "url": "/devices/all",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 540,
+        "wires": [
+            [
+                "6202aca351ec6731"
+            ]
+        ],
+        "info": "# Get all available devices"
+    },
+    {
+        "id": "6202aca351ec6731",
+        "type": "postgresql",
+        "z": "fe06c71ed0b2ee92",
+        "name": "get all devices",
+        "query": "SELECT * FROM devices WHERE NOT name='';\n",
+        "postgreSQLConfig": "59277170bebe1f35",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 400,
+        "y": 540,
+        "wires": [
+            [
+                "30d5d70e51727d07",
+                "0963ef62b9c614a9"
+            ]
+        ]
+    },
+    {
+        "id": "0963ef62b9c614a9",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 860,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "30d5d70e51727d07",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "check query execution",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "c7e583f00b4e03cd",
+        "type": "catch",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[get all devices] failed",
+        "scope": [
+            "6202aca351ec6731"
+        ],
+        "uncaught": false,
+        "x": 460,
+        "y": 600,
+        "wires": [
+            [
+                "71b06337e5f3b90b"
+            ]
+        ]
+    },
+    {
+        "id": "a82ff379aeef8c5f",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 850,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "71b06337e5f3b90b",
+        "type": "change",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 600,
+        "wires": [
+            [
+                "a82ff379aeef8c5f"
+            ]
+        ]
+    },
+    {
+        "id": "38c18bcdbed3d8f4",
+        "type": "postgresql",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Add a new device",
+        "query": "INSERT INTO devices \nVALUES (\n    gen_random_uuid (),\n    '{{msg.payload.name }}', \n    '{{msg.payload.description}}'\n)\nRETURNING device_id;\n\n",
+        "postgreSQLConfig": "59277170bebe1f35",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 370,
+        "y": 320,
+        "wires": [
+            [
+                "182c69e5cd1b2e3a",
+                "85c9baca822dd2d3"
+            ]
+        ]
+    },
+    {
+        "id": "182c69e5cd1b2e3a",
+        "type": "function",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Get device's id",
+        "func": "// payload as uuid of the brand new device\n\nmsg.payload = msg.payload[0];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 320,
+        "wires": [
+            [
+                "3556c8d1c16c240d"
+            ]
+        ]
+    },
+    {
+        "id": "3556c8d1c16c240d",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 960,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "85c9baca822dd2d3",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "check query execution",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "8648017eb986ddb1",
+        "type": "http in",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[post] /spi/:deviceId/:time",
+        "url": "/spi/:deviceId/:time",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 760,
+        "wires": [
+            [
+                "d0787851de4e1286"
+            ]
+        ],
+        "info": "# Get all available devices"
+    },
+    {
+        "id": "dcbe3b5c76125d54",
+        "type": "postgresql",
+        "z": "fe06c71ed0b2ee92",
+        "name": "add spi datum",
+        "query": "INSERT  INTO spi_raw \nVALUES (\n    gen_random_uuid (),\n    '{{msg.payload}}',\n    '{{msg.req.params.deviceId}}',\n    {{ msg.req.params.time }}\n)\nRETURNING datum_id;\n\n",
+        "postgreSQLConfig": "59277170bebe1f35",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 640,
+        "y": 760,
+        "wires": [
+            [
+                "3886e1c3cb985603",
+                "43b8dfa21fba811b",
+                "93d95d849eda6dc9"
+            ]
+        ]
+    },
+    {
+        "id": "43b8dfa21fba811b",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1060,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "3886e1c3cb985603",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "check query execution",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "b772ac109c87dabe",
+        "type": "catch",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[add spi datum] failed",
+        "scope": [
+            "dcbe3b5c76125d54"
+        ],
+        "uncaught": false,
+        "x": 660,
+        "y": 820,
+        "wires": [
+            [
+                "a39bd48009fa627a",
+                "3886e1c3cb985603",
+                "93d95d849eda6dc9"
+            ]
+        ]
+    },
+    {
+        "id": "a7be745dc0757012",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1050,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "a39bd48009fa627a",
+        "type": "change",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 820,
+        "wires": [
+            [
+                "a7be745dc0757012"
+            ]
+        ]
+    },
+    {
+        "id": "4810e1238bc7b72b",
+        "type": "http in",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[get] /spi/:deviceId",
+        "url": "/spi/:deviceId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 1020,
+        "wires": [
+            [
+                "5827ec2c580a360a"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "b5810bfdc2d7f6d7",
+        "type": "postgresql",
+        "z": "fe06c71ed0b2ee92",
+        "name": "read spi data of a device",
+        "query": "SELECT datum_id, spi_content, device_id, timestamp_ms AS time FROM spi_raw \nWHERE (device_id='{{msg.req.params.deviceId}}')\nAND\n (timestamp_ms BETWEEN \n{{msg.payload.timeBegin}}\nAND\n{{msg.payload.timeEnd}})\n",
+        "postgreSQLConfig": "59277170bebe1f35",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 690,
+        "y": 1020,
+        "wires": [
+            [
+                "6317ae4cb690ae31",
+                "f2134077284d02c7",
+                "1917b1291dd0dcd0"
+            ]
+        ]
+    },
+    {
+        "id": "f2134077284d02c7",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1160,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "6317ae4cb690ae31",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "check query execution",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "ddc44b66b6695b01",
+        "type": "catch",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[read spi data] failed",
+        "scope": [
+            "b5810bfdc2d7f6d7"
+        ],
+        "uncaught": false,
+        "x": 750,
+        "y": 1080,
+        "wires": [
+            [
+                "0b88318ad336f524",
+                "6317ae4cb690ae31",
+                "1917b1291dd0dcd0"
+            ]
+        ]
+    },
+    {
+        "id": "8adc178e2a10bc3c",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1150,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "0b88318ad336f524",
+        "type": "change",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 980,
+        "y": 1080,
+        "wires": [
+            [
+                "8adc178e2a10bc3c"
+            ]
+        ]
+    },
+    {
+        "id": "5827ec2c580a360a",
+        "type": "function",
+        "z": "fe06c71ed0b2ee92",
+        "name": "extract timestamps",
+        "func": "\nlet timeBegin = msg.req.query.begin ? (msg.req.query.begin) : 0\nlet timeEnd = msg.req.query.end ? (msg.req.query.end ): Date.now()\n\nmsg.payload = {\n    timeBegin,\n    timeEnd\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1020,
+        "wires": [
+            [
+                "b5810bfdc2d7f6d7"
+            ]
+        ]
+    },
+    {
+        "id": "f345ed42761a3cf0",
+        "type": "http in",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[get] /spi/:deviceId/latest/:number",
+        "url": "/spi/:deviceId/latest/:number",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 230,
+        "y": 1240,
+        "wires": [
+            [
+                "d893bcf6b4b8485b",
+                "66b7dac0f439201a"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "b223f6ce54025733",
+        "type": "postgresql",
+        "z": "fe06c71ed0b2ee92",
+        "name": "read latest spi data of a device",
+        "query": "SELECT datum_id, spi_content, device_id, timestamp_ms AS time FROM spi_raw \nWHERE device_id='{{msg.req.params.deviceId}}' \nAND \ntimestamp_ms<={{msg.payload.timeEnd}}\nORDER BY timestamp_ms DESC \nLIMIT {{msg.req.params.number}}\n; ",
+        "postgreSQLConfig": "59277170bebe1f35",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 710,
+        "y": 1240,
+        "wires": [
+            [
+                "112a0a86fde38261",
+                "a15a3d416bf7ec6f"
+            ]
+        ]
+    },
+    {
+        "id": "e6ab1527ea49595a",
+        "type": "catch",
+        "z": "fe06c71ed0b2ee92",
+        "name": "[read spi data] failed",
+        "scope": [
+            "b223f6ce54025733"
+        ],
+        "uncaught": false,
+        "x": 750,
+        "y": 1300,
+        "wires": [
+            [
+                "cb0435d27d96168b",
+                "112a0a86fde38261"
+            ]
+        ]
+    },
+    {
+        "id": "112a0a86fde38261",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "cb0435d27d96168b",
+        "type": "change",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 980,
+        "y": 1300,
+        "wires": [
+            [
+                "28dd22ba261b1464"
+            ]
+        ]
+    },
+    {
+        "id": "a15a3d416bf7ec6f",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1160,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "28dd22ba261b1464",
+        "type": "http response",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1150,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "bce12fe62faeec00",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "debug 8",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "070934aa57e33caa",
+        "type": "websocket in",
+        "z": "fe06c71ed0b2ee92",
+        "name": "ws: /spi ",
+        "server": "21c779325e79f03f",
+        "client": "",
+        "x": 150,
+        "y": 1400,
+        "wires": [
+            [
+                "7d0aff0015f402d4",
+                "b8c3b7a89d291516"
+            ]
+        ]
+    },
+    {
+        "id": "4c163ba22b728c87",
+        "type": "catch",
+        "z": "fe06c71ed0b2ee92",
+        "name": "ws catch",
+        "scope": [
+            "070934aa57e33caa"
+        ],
+        "uncaught": false,
+        "x": 340,
+        "y": 1460,
+        "wires": [
+            [
+                "10d98484611d8240",
+                "6959dcf4611a7ead"
+            ]
+        ]
+    },
+    {
+        "id": "10d98484611d8240",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "7d0aff0015f402d4",
+        "type": "function",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Parse Json string",
+        "func": "let a = 0;\n// let json = JSON.parse(msg.payload)\n// msg.payload = json\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1400,
+        "wires": [
+            [
+                "d7815550b4da2a99"
+            ]
+        ]
+    },
+    {
+        "id": "d7815550b4da2a99",
+        "type": "postgresql",
+        "z": "fe06c71ed0b2ee92",
+        "name": "add spi datum",
+        "query": "INSERT  INTO spi_raw \nVALUES (\n    gen_random_uuid (),\n    '{{msg.content}}',\n    '{{msg.deviceId}}',\n    {{msg.time}}\n)\nRETURNING datum_id;\n\n",
+        "postgreSQLConfig": "59277170bebe1f35",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 600,
+        "y": 1400,
+        "wires": [
+            [
+                "5881881c20873744"
+            ]
+        ]
+    },
+    {
+        "id": "8ea5db1e052c4cc6",
+        "type": "catch",
+        "z": "fe06c71ed0b2ee92",
+        "name": "catch json parsing failed",
+        "scope": [
+            "070934aa57e33caa",
+            "7d0aff0015f402d4"
+        ],
+        "uncaught": false,
+        "x": 360,
+        "y": 1520,
+        "wires": [
+            [
+                "10d98484611d8240",
+                "cbf93adb15f0ad07"
+            ]
+        ]
+    },
+    {
+        "id": "c84631b9af35e753",
+        "type": "websocket out",
+        "z": "fe06c71ed0b2ee92",
+        "name": "response",
+        "server": "21c779325e79f03f",
+        "client": "",
+        "x": 1020,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "6959dcf4611a7ead",
+        "type": "function",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Connection failed handler",
+        "func": "msg = {}\nmsg.payload = \"Connection failed! Check your request header for handshake\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1460,
+        "wires": [
+            [
+                "c84631b9af35e753"
+            ]
+        ]
+    },
+    {
+        "id": "cbf93adb15f0ad07",
+        "type": "function",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Wrong JSON format handler",
+        "func": "msg = {}\nmsg.payload = \"Wrong JSON string format\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1520,
+        "wires": [
+            [
+                "c84631b9af35e753"
+            ]
+        ]
+    },
+    {
+        "id": "5881881c20873744",
+        "type": "function",
+        "z": "fe06c71ed0b2ee92",
+        "name": "Create res",
+        "func": "let id = msg.payload\nmsg = {};\nmsg = id\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 1400,
+        "wires": [
+            [
+                "c84631b9af35e753"
+            ]
+        ]
+    },
+    {
+        "id": "d893bcf6b4b8485b",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "66b7dac0f439201a",
+        "type": "function",
+        "z": "fe06c71ed0b2ee92",
+        "name": "extract timestamps",
+        "func": "\n// let timeBegin = msg.req.query.begin ? msg.req.query.begin : 0\nlet timeEnd = msg.req.query.end ? (msg.req.query.end ): Date.now()\n\nmsg.payload = {\n    // timeBegin,\n    timeEnd\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1240,
+        "wires": [
+            [
+                "b223f6ce54025733"
+            ]
+        ]
+    },
+    {
+        "id": "93d95d849eda6dc9",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "add data debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "d0787851de4e1286",
+        "type": "function",
+        "z": "fe06c71ed0b2ee92",
+        "name": "extract timestamps",
+        "func": "\n// msg.req.params.time = (msg.req.params.time)\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 760,
+        "wires": [
+            [
+                "dcbe3b5c76125d54"
+            ]
+        ]
+    },
+    {
+        "id": "1917b1291dd0dcd0",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "b8c3b7a89d291516",
+        "type": "debug",
+        "z": "fe06c71ed0b2ee92",
+        "name": "debug 12",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
         "x": 280,
-        "y": 640,
+        "y": 1340,
         "wires": []
     }
 ]
