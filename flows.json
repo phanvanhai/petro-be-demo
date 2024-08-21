@@ -2,7 +2,7 @@
     {
         "id": "4cb885b752d53fe9",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "TCP Processes",
         "disabled": false,
         "info": "",
         "env": []
@@ -12,6 +12,14 @@
         "type": "tab",
         "label": "Flow 2",
         "disabled": true,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4c5594ae3c7017fa",
+        "type": "tab",
+        "label": "HTTP Public APIs",
+        "disabled": false,
         "info": "",
         "env": []
     },
@@ -282,79 +290,6 @@
         "headers": {},
         "x": 500,
         "y": 800,
-        "wires": []
-    },
-    {
-        "id": "0d7c46c52f3b71d4",
-        "type": "http in",
-        "z": "4cb885b752d53fe9",
-        "name": "[post] /:device",
-        "url": "/:device",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 90,
-        "y": 1040,
-        "wires": [
-            [
-                "f5d20ad6bcfb8155",
-                "90606b0c4814cff6"
-            ]
-        ]
-    },
-    {
-        "id": "a52b12b44e98599b",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 680,
-        "y": 1040,
-        "wires": []
-    },
-    {
-        "id": "f5d20ad6bcfb8155",
-        "type": "change",
-        "z": "4cb885b752d53fe9",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "device",
-                "pt": "global",
-                "to": "req.params.device",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 390,
-        "y": 1040,
-        "wires": [
-            [
-                "a52b12b44e98599b"
-            ]
-        ]
-    },
-    {
-        "id": "90606b0c4814cff6",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 3",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "req.params.device",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 260,
-        "y": 1080,
         "wires": []
     },
     {
@@ -930,1001 +865,6 @@
         ]
     },
     {
-        "id": "88863c278c57c63a",
-        "type": "http in",
-        "z": "4cb885b752d53fe9",
-        "name": "[get] /spi/latest/:number",
-        "url": "/spi/latest/:number",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 120,
-        "y": 1620,
-        "wires": [
-            [
-                "a833732813b79290",
-                "b7fbcf25bc9c087c"
-            ]
-        ],
-        "info": "# Read spi data of a specific device with begin and end timestamp"
-    },
-    {
-        "id": "3833826d2f0e2e34",
-        "type": "postgresql",
-        "z": "4cb885b752d53fe9",
-        "name": "read latest  raw data ",
-        "query": "SELECT * FROM raws\nWHERE \nreceived_timestamp<={{msg.payload.timeEnd}}\nAND\nreceived_timestamp>={{msg.payload.timeBegin}}\nORDER BY received_timestamp DESC \nLIMIT {{msg.req.params.number}}\n; ",
-        "postgreSQLConfig": "d381a5fbe59c4361",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 590,
-        "y": 1620,
-        "wires": [
-            [
-                "dda6fd2a9cf11927",
-                "ecc4841a53304cc1"
-            ]
-        ]
-    },
-    {
-        "id": "eb1c30886d21f9f1",
-        "type": "catch",
-        "z": "4cb885b752d53fe9",
-        "name": "[read spi data] failed",
-        "scope": [
-            "3833826d2f0e2e34"
-        ],
-        "uncaught": false,
-        "x": 630,
-        "y": 1680,
-        "wires": [
-            [
-                "4cf270a5df8263d5",
-                "dda6fd2a9cf11927"
-            ]
-        ]
-    },
-    {
-        "id": "dda6fd2a9cf11927",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "check query execution",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 860,
-        "y": 1560,
-        "wires": []
-    },
-    {
-        "id": "4cf270a5df8263d5",
-        "type": "change",
-        "z": "4cb885b752d53fe9",
-        "name": "Clear payload",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Bad request, check your request content then try again.",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 900,
-        "y": 1680,
-        "wires": [
-            [
-                "bbf305370fdb192c"
-            ]
-        ]
-    },
-    {
-        "id": "ecc4841a53304cc1",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "200 OK",
-        "statusCode": "200",
-        "headers": {
-            "Content_Type": "application/json"
-        },
-        "x": 1080,
-        "y": 1620,
-        "wires": []
-    },
-    {
-        "id": "bbf305370fdb192c",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "Bad request",
-        "statusCode": "400",
-        "headers": {},
-        "x": 1070,
-        "y": 1680,
-        "wires": []
-    },
-    {
-        "id": "1d67a7ca9b16ace4",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 13",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1080,
-        "y": 1560,
-        "wires": []
-    },
-    {
-        "id": "a833732813b79290",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 14",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "req.query",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 380,
-        "y": 1580,
-        "wires": []
-    },
-    {
-        "id": "b7fbcf25bc9c087c",
-        "type": "function",
-        "z": "4cb885b752d53fe9",
-        "name": "extract timestamps",
-        "func": "\nlet timeBegin = msg.req.query.begin ? msg.req.query.begin : 0\nlet timeEnd = msg.req.query.end ? (msg.req.query.end ): Date.now()\n\nmsg.payload = {\n    timeBegin,\n    timeEnd\n}\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 390,
-        "y": 1620,
-        "wires": [
-            [
-                "3833826d2f0e2e34"
-            ]
-        ]
-    },
-    {
-        "id": "4c4e5e43f7406981",
-        "type": "http in",
-        "z": "4cb885b752d53fe9",
-        "name": "[put] /spi/:id",
-        "url": "/spi/:id",
-        "method": "put",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 2060,
-        "wires": [
-            [
-                "59a7bcb134316215",
-                "f5cb08da89924786",
-                "c5b4ac07a369e101",
-                "ac5942aab3494a28"
-            ]
-        ],
-        "info": "# Read spi data of a specific device with begin and end timestamp"
-    },
-    {
-        "id": "4e39f17933d4108a",
-        "type": "postgresql",
-        "z": "4cb885b752d53fe9",
-        "name": "update raws decode_error",
-        "query": "UPDATE raws\nSET decode_error={{msg.payload.decodeError}}\nWHERE id='{{msg.req.params.id}}';",
-        "postgreSQLConfig": "d381a5fbe59c4361",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 730,
-        "y": 2080,
-        "wires": [
-            [
-                "4a9b79168af73063",
-                "2f84664b77478f91"
-            ]
-        ]
-    },
-    {
-        "id": "952ba4679873507d",
-        "type": "catch",
-        "z": "4cb885b752d53fe9",
-        "name": "[update spi's decode_error] failed",
-        "scope": [
-            "4e39f17933d4108a"
-        ],
-        "uncaught": false,
-        "x": 770,
-        "y": 2140,
-        "wires": [
-            [
-                "9eb0f605737506d8",
-                "4a9b79168af73063"
-            ]
-        ]
-    },
-    {
-        "id": "4a9b79168af73063",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "check query execution",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 980,
-        "y": 2020,
-        "wires": []
-    },
-    {
-        "id": "9eb0f605737506d8",
-        "type": "change",
-        "z": "4cb885b752d53fe9",
-        "name": "Clear payload",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Bad request, check your request content then try again.",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1020,
-        "y": 2140,
-        "wires": [
-            [
-                "624dab3d96f0caee"
-            ]
-        ]
-    },
-    {
-        "id": "624dab3d96f0caee",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "Bad request",
-        "statusCode": "400",
-        "headers": {},
-        "x": 1190,
-        "y": 2140,
-        "wires": []
-    },
-    {
-        "id": "447705dc5cf73bd7",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 15",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1200,
-        "y": 2020,
-        "wires": []
-    },
-    {
-        "id": "59a7bcb134316215",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 16",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "req.query",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 420,
-        "y": 2020,
-        "wires": []
-    },
-    {
-        "id": "f5cb08da89924786",
-        "type": "switch",
-        "z": "4cb885b752d53fe9",
-        "name": "check for decodeError",
-        "property": "payload.decodeError",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "istype",
-                "v": "boolean",
-                "vt": "boolean"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 440,
-        "y": 2080,
-        "wires": [
-            [
-                "4e39f17933d4108a",
-                "032324092c20dc1f"
-            ]
-        ]
-    },
-    {
-        "id": "703824cb6ee5b81d",
-        "type": "postgresql",
-        "z": "4cb885b752d53fe9",
-        "name": "update raw logic_error",
-        "query": "UPDATE raws\n\nSET logic_error={{msg.payload.logicError}}\n\nWHERE id='{{msg.req.params.id}}';",
-        "postgreSQLConfig": "d381a5fbe59c4361",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 720,
-        "y": 2300,
-        "wires": [
-            [
-                "1bb7a1912cc33f0b",
-                "9543b61797c555d0"
-            ]
-        ]
-    },
-    {
-        "id": "822cf6c112986bba",
-        "type": "catch",
-        "z": "4cb885b752d53fe9",
-        "name": "[update spi's logic_error] failed",
-        "scope": [
-            "703824cb6ee5b81d"
-        ],
-        "uncaught": false,
-        "x": 760,
-        "y": 2360,
-        "wires": [
-            [
-                "2372054408ed6b9a",
-                "1bb7a1912cc33f0b"
-            ]
-        ]
-    },
-    {
-        "id": "1bb7a1912cc33f0b",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "check query execution",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 980,
-        "y": 2240,
-        "wires": []
-    },
-    {
-        "id": "2372054408ed6b9a",
-        "type": "change",
-        "z": "4cb885b752d53fe9",
-        "name": "Clear payload",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Bad request, check your request content then try again.",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1020,
-        "y": 2360,
-        "wires": [
-            [
-                "775f74c39f63b49b"
-            ]
-        ]
-    },
-    {
-        "id": "775f74c39f63b49b",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "Bad request",
-        "statusCode": "400",
-        "headers": {},
-        "x": 1190,
-        "y": 2360,
-        "wires": []
-    },
-    {
-        "id": "8d43c532b918bd81",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 17",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1200,
-        "y": 2240,
-        "wires": []
-    },
-    {
-        "id": "ac5942aab3494a28",
-        "type": "switch",
-        "z": "4cb885b752d53fe9",
-        "name": "check for logicError",
-        "property": "payload.logicError",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "istype",
-                "v": "boolean",
-                "vt": "boolean"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 430,
-        "y": 2300,
-        "wires": [
-            [
-                "703824cb6ee5b81d",
-                "e91d79ede498087f"
-            ]
-        ]
-    },
-    {
-        "id": "c6604fe4ac26806c",
-        "type": "postgresql",
-        "z": "4cb885b752d53fe9",
-        "name": "update raw note",
-        "query": "UPDATE raws\n\nSET note='{{msg.payload.note}}'\n\nWHERE id='{{msg.req.params.id}}';",
-        "postgreSQLConfig": "d381a5fbe59c4361",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 700,
-        "y": 2520,
-        "wires": [
-            [
-                "0956adcba6df4b6f",
-                "670885e94e1e3cbd"
-            ]
-        ]
-    },
-    {
-        "id": "ba504c990f1bf190",
-        "type": "catch",
-        "z": "4cb885b752d53fe9",
-        "name": "[update spi's note failed",
-        "scope": [
-            "c6604fe4ac26806c"
-        ],
-        "uncaught": false,
-        "x": 740,
-        "y": 2580,
-        "wires": [
-            [
-                "25552ede1e336149",
-                "0956adcba6df4b6f"
-            ]
-        ]
-    },
-    {
-        "id": "0956adcba6df4b6f",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "check query execution",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 980,
-        "y": 2460,
-        "wires": []
-    },
-    {
-        "id": "25552ede1e336149",
-        "type": "change",
-        "z": "4cb885b752d53fe9",
-        "name": "Clear payload",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Bad request, check your request content then try again.",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1020,
-        "y": 2580,
-        "wires": [
-            [
-                "1ffbf7d2ca0784ac"
-            ]
-        ]
-    },
-    {
-        "id": "1ffbf7d2ca0784ac",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "Bad request",
-        "statusCode": "400",
-        "headers": {},
-        "x": 1190,
-        "y": 2580,
-        "wires": []
-    },
-    {
-        "id": "4e8a3c8ae4a582bb",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 18",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1200,
-        "y": 2460,
-        "wires": []
-    },
-    {
-        "id": "c5b4ac07a369e101",
-        "type": "switch",
-        "z": "4cb885b752d53fe9",
-        "name": "check for note",
-        "property": "payload.note",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "istype",
-                "v": "string",
-                "vt": "string"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 420,
-        "y": 2520,
-        "wires": [
-            [
-                "c6604fe4ac26806c"
-            ]
-        ]
-    },
-    {
-        "id": "670885e94e1e3cbd",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "200 OK",
-        "statusCode": "200",
-        "headers": {
-            "Content_Type": "application/json"
-        },
-        "x": 1200,
-        "y": 2520,
-        "wires": []
-    },
-    {
-        "id": "9543b61797c555d0",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "200 OK",
-        "statusCode": "200",
-        "headers": {
-            "Content_Type": "application/json"
-        },
-        "x": 1200,
-        "y": 2300,
-        "wires": []
-    },
-    {
-        "id": "2f84664b77478f91",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "200 OK",
-        "statusCode": "200",
-        "headers": {
-            "Content_Type": "application/json"
-        },
-        "x": 1200,
-        "y": 2080,
-        "wires": []
-    },
-    {
-        "id": "0d3d0b6f3d9e39bf",
-        "type": "http in",
-        "z": "4cb885b752d53fe9",
-        "name": "[del] /spi/:id",
-        "url": "/spi/:id",
-        "method": "delete",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 2780,
-        "wires": [
-            [
-                "927b1fe3c1408484",
-                "3c636b95995ab6fd"
-            ]
-        ],
-        "info": "# Read spi data of a specific device with begin and end timestamp"
-    },
-    {
-        "id": "3c636b95995ab6fd",
-        "type": "postgresql",
-        "z": "4cb885b752d53fe9",
-        "name": "delete record",
-        "query": "DELETE FROM raws \nWHERE id='{{msg.req.params.id}}';",
-        "postgreSQLConfig": "d381a5fbe59c4361",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 630,
-        "y": 2780,
-        "wires": [
-            [
-                "a516f72dd936dc9e",
-                "fe82015123a652d5"
-            ]
-        ]
-    },
-    {
-        "id": "71751c5ce3d2cf80",
-        "type": "catch",
-        "z": "4cb885b752d53fe9",
-        "name": "[delete record] failed",
-        "scope": [
-            "3c636b95995ab6fd"
-        ],
-        "uncaught": false,
-        "x": 670,
-        "y": 2840,
-        "wires": [
-            [
-                "e2f08632f94a24fc",
-                "a516f72dd936dc9e"
-            ]
-        ]
-    },
-    {
-        "id": "a516f72dd936dc9e",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "check query execution",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 920,
-        "y": 2720,
-        "wires": []
-    },
-    {
-        "id": "e2f08632f94a24fc",
-        "type": "change",
-        "z": "4cb885b752d53fe9",
-        "name": "Clear payload",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Bad request, check your request content then try again.",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 960,
-        "y": 2840,
-        "wires": [
-            [
-                "c886d99f9b282554"
-            ]
-        ]
-    },
-    {
-        "id": "c886d99f9b282554",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "Bad request",
-        "statusCode": "400",
-        "headers": {},
-        "x": 1130,
-        "y": 2840,
-        "wires": []
-    },
-    {
-        "id": "90254f5b89739a60",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 19",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1140,
-        "y": 2720,
-        "wires": []
-    },
-    {
-        "id": "927b1fe3c1408484",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 20",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "req.query",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 420,
-        "y": 2740,
-        "wires": []
-    },
-    {
-        "id": "fe82015123a652d5",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "200 OK",
-        "statusCode": "200",
-        "headers": {
-            "Content_Type": "application/json"
-        },
-        "x": 1140,
-        "y": 2780,
-        "wires": []
-    },
-    {
-        "id": "c6d52bb93261c9ab",
-        "type": "http in",
-        "z": "4cb885b752d53fe9",
-        "name": "[get] /spi/oldest/:number",
-        "url": "/spi/oldest/:number",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 140,
-        "y": 1860,
-        "wires": [
-            [
-                "d93c9741cebbc2bc",
-                "4db2e22011de45ea"
-            ]
-        ],
-        "info": "# Read spi data of a specific device with begin and end timestamp"
-    },
-    {
-        "id": "f42df2d8c1eed360",
-        "type": "postgresql",
-        "z": "4cb885b752d53fe9",
-        "name": "read oldest raw data ",
-        "query": "SELECT * FROM raws \nWHERE \nreceived_timestamp<={{msg.payload.timeEnd}}\nAND\nreceived_timestamp>={{msg.payload.timeBegin}}\nORDER BY received_timestamp ASC \nLIMIT {{msg.req.params.number}}\n; ",
-        "postgreSQLConfig": "d381a5fbe59c4361",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 620,
-        "y": 1860,
-        "wires": [
-            [
-                "a3d14a8772827716",
-                "02f8a9d44bb9ba51"
-            ]
-        ]
-    },
-    {
-        "id": "488e3a41de942a41",
-        "type": "catch",
-        "z": "4cb885b752d53fe9",
-        "name": "[read spi data] failed",
-        "scope": [
-            "f42df2d8c1eed360"
-        ],
-        "uncaught": false,
-        "x": 690,
-        "y": 1920,
-        "wires": [
-            [
-                "c634a10081a3f1b4",
-                "a3d14a8772827716"
-            ]
-        ]
-    },
-    {
-        "id": "a3d14a8772827716",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "check query execution",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 880,
-        "y": 1800,
-        "wires": []
-    },
-    {
-        "id": "c634a10081a3f1b4",
-        "type": "change",
-        "z": "4cb885b752d53fe9",
-        "name": "Clear payload",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Bad request, check your request content then try again.",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 920,
-        "y": 1920,
-        "wires": [
-            [
-                "b95630cb7aef0d63"
-            ]
-        ]
-    },
-    {
-        "id": "02f8a9d44bb9ba51",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "200 OK",
-        "statusCode": "200",
-        "headers": {
-            "Content_Type": "application/json"
-        },
-        "x": 1100,
-        "y": 1860,
-        "wires": []
-    },
-    {
-        "id": "b95630cb7aef0d63",
-        "type": "http response",
-        "z": "4cb885b752d53fe9",
-        "name": "Bad request",
-        "statusCode": "400",
-        "headers": {},
-        "x": 1090,
-        "y": 1920,
-        "wires": []
-    },
-    {
-        "id": "2313b449cd375c91",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 21",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1100,
-        "y": 1800,
-        "wires": []
-    },
-    {
-        "id": "d93c9741cebbc2bc",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 22",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "req.query",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 400,
-        "y": 1820,
-        "wires": []
-    },
-    {
-        "id": "4db2e22011de45ea",
-        "type": "function",
-        "z": "4cb885b752d53fe9",
-        "name": "extract timestamps",
-        "func": "\nlet timeBegin = msg.req.query.begin ? msg.req.query.begin : 0\nlet timeEnd = msg.req.query.end ? (msg.req.query.end ): Date.now()\n\nmsg.payload = {\n    timeBegin,\n    timeEnd\n}\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 410,
-        "y": 1860,
-        "wires": [
-            [
-                "f42df2d8c1eed360"
-            ]
-        ]
-    },
-    {
         "id": "822fe65a92c2119a",
         "type": "debug",
         "z": "4cb885b752d53fe9",
@@ -2062,38 +1002,6 @@
                 "83d15a27a33d4966"
             ]
         ]
-    },
-    {
-        "id": "e91d79ede498087f",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 27",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 580,
-        "y": 2400,
-        "wires": []
-    },
-    {
-        "id": "032324092c20dc1f",
-        "type": "debug",
-        "z": "4cb885b752d53fe9",
-        "name": "debug 28",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 580,
-        "y": 2140,
-        "wires": []
     },
     {
         "id": "8b9b5d7230cb41fc",
@@ -3193,6 +2101,1106 @@
         "statusType": "auto",
         "x": 280,
         "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "88863c278c57c63a",
+        "type": "http in",
+        "z": "4c5594ae3c7017fa",
+        "name": "[get] /spi/latest/:number",
+        "url": "/spi/latest/:number",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 220,
+        "y": 120,
+        "wires": [
+            [
+                "a833732813b79290",
+                "b7fbcf25bc9c087c"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "3833826d2f0e2e34",
+        "type": "postgresql",
+        "z": "4c5594ae3c7017fa",
+        "name": "read latest  raw data ",
+        "query": "SELECT * FROM raws\nWHERE \nreceived_timestamp<={{msg.payload.timeEnd}}\nAND\nreceived_timestamp>={{msg.payload.timeBegin}}\nORDER BY received_timestamp DESC \nLIMIT {{msg.req.params.number}}\n; ",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 690,
+        "y": 120,
+        "wires": [
+            [
+                "dda6fd2a9cf11927",
+                "ecc4841a53304cc1"
+            ]
+        ]
+    },
+    {
+        "id": "eb1c30886d21f9f1",
+        "type": "catch",
+        "z": "4c5594ae3c7017fa",
+        "name": "[read spi data] failed",
+        "scope": [
+            "3833826d2f0e2e34"
+        ],
+        "uncaught": false,
+        "x": 730,
+        "y": 180,
+        "wires": [
+            [
+                "4cf270a5df8263d5",
+                "dda6fd2a9cf11927"
+            ]
+        ]
+    },
+    {
+        "id": "dda6fd2a9cf11927",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "4cf270a5df8263d5",
+        "type": "change",
+        "z": "4c5594ae3c7017fa",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1000,
+        "y": 180,
+        "wires": [
+            [
+                "bbf305370fdb192c"
+            ]
+        ]
+    },
+    {
+        "id": "ecc4841a53304cc1",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1180,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "bbf305370fdb192c",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1170,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "1d67a7ca9b16ace4",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 13",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "a833732813b79290",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "b7fbcf25bc9c087c",
+        "type": "function",
+        "z": "4c5594ae3c7017fa",
+        "name": "extract timestamps",
+        "func": "\nlet timeBegin = msg.req.query.begin ? msg.req.query.begin : 0\nlet timeEnd = msg.req.query.end ? (msg.req.query.end ): Date.now()\n\nmsg.payload = {\n    timeBegin,\n    timeEnd\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 120,
+        "wires": [
+            [
+                "3833826d2f0e2e34"
+            ]
+        ]
+    },
+    {
+        "id": "4c4e5e43f7406981",
+        "type": "http in",
+        "z": "4c5594ae3c7017fa",
+        "name": "[put] /spi/:id",
+        "url": "/spi/:id",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 600,
+        "wires": [
+            [
+                "59a7bcb134316215",
+                "f5cb08da89924786",
+                "c5b4ac07a369e101",
+                "ac5942aab3494a28"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "4e39f17933d4108a",
+        "type": "postgresql",
+        "z": "4c5594ae3c7017fa",
+        "name": "update raws decode_error",
+        "query": "UPDATE raws\nSET decode_error={{msg.payload.decodeError}}\nWHERE id='{{msg.req.params.id}}';",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 750,
+        "y": 620,
+        "wires": [
+            [
+                "4a9b79168af73063",
+                "2f84664b77478f91"
+            ]
+        ]
+    },
+    {
+        "id": "952ba4679873507d",
+        "type": "catch",
+        "z": "4c5594ae3c7017fa",
+        "name": "[update spi's decode_error] failed",
+        "scope": [
+            "4e39f17933d4108a"
+        ],
+        "uncaught": false,
+        "x": 790,
+        "y": 680,
+        "wires": [
+            [
+                "9eb0f605737506d8",
+                "4a9b79168af73063"
+            ]
+        ]
+    },
+    {
+        "id": "4a9b79168af73063",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "9eb0f605737506d8",
+        "type": "change",
+        "z": "4c5594ae3c7017fa",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 680,
+        "wires": [
+            [
+                "624dab3d96f0caee"
+            ]
+        ]
+    },
+    {
+        "id": "624dab3d96f0caee",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1210,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "447705dc5cf73bd7",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 15",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "59a7bcb134316215",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "f5cb08da89924786",
+        "type": "switch",
+        "z": "4c5594ae3c7017fa",
+        "name": "check for decodeError",
+        "property": "payload.decodeError",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "boolean",
+                "vt": "boolean"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 460,
+        "y": 620,
+        "wires": [
+            [
+                "4e39f17933d4108a",
+                "032324092c20dc1f"
+            ]
+        ]
+    },
+    {
+        "id": "703824cb6ee5b81d",
+        "type": "postgresql",
+        "z": "4c5594ae3c7017fa",
+        "name": "update raw logic_error",
+        "query": "UPDATE raws\n\nSET logic_error={{msg.payload.logicError}}\n\nWHERE id='{{msg.req.params.id}}';",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 740,
+        "y": 840,
+        "wires": [
+            [
+                "1bb7a1912cc33f0b",
+                "9543b61797c555d0"
+            ]
+        ]
+    },
+    {
+        "id": "822cf6c112986bba",
+        "type": "catch",
+        "z": "4c5594ae3c7017fa",
+        "name": "[update spi's logic_error] failed",
+        "scope": [
+            "703824cb6ee5b81d"
+        ],
+        "uncaught": false,
+        "x": 780,
+        "y": 900,
+        "wires": [
+            [
+                "2372054408ed6b9a",
+                "1bb7a1912cc33f0b"
+            ]
+        ]
+    },
+    {
+        "id": "1bb7a1912cc33f0b",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "2372054408ed6b9a",
+        "type": "change",
+        "z": "4c5594ae3c7017fa",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 900,
+        "wires": [
+            [
+                "775f74c39f63b49b"
+            ]
+        ]
+    },
+    {
+        "id": "775f74c39f63b49b",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1210,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "8d43c532b918bd81",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 17",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "ac5942aab3494a28",
+        "type": "switch",
+        "z": "4c5594ae3c7017fa",
+        "name": "check for logicError",
+        "property": "payload.logicError",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "boolean",
+                "vt": "boolean"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 450,
+        "y": 840,
+        "wires": [
+            [
+                "703824cb6ee5b81d",
+                "e91d79ede498087f"
+            ]
+        ]
+    },
+    {
+        "id": "c6604fe4ac26806c",
+        "type": "postgresql",
+        "z": "4c5594ae3c7017fa",
+        "name": "update raw note",
+        "query": "UPDATE raws\n\nSET note='{{msg.payload.note}}'\n\nWHERE id='{{msg.req.params.id}}';",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 720,
+        "y": 1060,
+        "wires": [
+            [
+                "0956adcba6df4b6f",
+                "670885e94e1e3cbd"
+            ]
+        ]
+    },
+    {
+        "id": "ba504c990f1bf190",
+        "type": "catch",
+        "z": "4c5594ae3c7017fa",
+        "name": "[update spi's note failed",
+        "scope": [
+            "c6604fe4ac26806c"
+        ],
+        "uncaught": false,
+        "x": 760,
+        "y": 1120,
+        "wires": [
+            [
+                "25552ede1e336149",
+                "0956adcba6df4b6f"
+            ]
+        ]
+    },
+    {
+        "id": "0956adcba6df4b6f",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "25552ede1e336149",
+        "type": "change",
+        "z": "4c5594ae3c7017fa",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 1120,
+        "wires": [
+            [
+                "1ffbf7d2ca0784ac"
+            ]
+        ]
+    },
+    {
+        "id": "1ffbf7d2ca0784ac",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1210,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "4e8a3c8ae4a582bb",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 18",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "c5b4ac07a369e101",
+        "type": "switch",
+        "z": "4c5594ae3c7017fa",
+        "name": "check for note",
+        "property": "payload.note",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "string",
+                "vt": "string"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 440,
+        "y": 1060,
+        "wires": [
+            [
+                "c6604fe4ac26806c"
+            ]
+        ]
+    },
+    {
+        "id": "670885e94e1e3cbd",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1220,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "9543b61797c555d0",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1220,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "2f84664b77478f91",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1220,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "c6d52bb93261c9ab",
+        "type": "http in",
+        "z": "4c5594ae3c7017fa",
+        "name": "[get] /spi/oldest/:number",
+        "url": "/spi/oldest/:number",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 360,
+        "wires": [
+            [
+                "d93c9741cebbc2bc",
+                "4db2e22011de45ea"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "f42df2d8c1eed360",
+        "type": "postgresql",
+        "z": "4c5594ae3c7017fa",
+        "name": "read oldest raw data ",
+        "query": "SELECT * FROM raws \nWHERE \nreceived_timestamp<={{msg.payload.timeEnd}}\nAND\nreceived_timestamp>={{msg.payload.timeBegin}}\nORDER BY received_timestamp ASC \nLIMIT {{msg.req.params.number}}\n; ",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 660,
+        "y": 360,
+        "wires": [
+            [
+                "a3d14a8772827716",
+                "02f8a9d44bb9ba51"
+            ]
+        ]
+    },
+    {
+        "id": "488e3a41de942a41",
+        "type": "catch",
+        "z": "4c5594ae3c7017fa",
+        "name": "[read spi data] failed",
+        "scope": [
+            "f42df2d8c1eed360"
+        ],
+        "uncaught": false,
+        "x": 730,
+        "y": 420,
+        "wires": [
+            [
+                "c634a10081a3f1b4",
+                "a3d14a8772827716"
+            ]
+        ]
+    },
+    {
+        "id": "a3d14a8772827716",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "c634a10081a3f1b4",
+        "type": "change",
+        "z": "4c5594ae3c7017fa",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 960,
+        "y": 420,
+        "wires": [
+            [
+                "b95630cb7aef0d63"
+            ]
+        ]
+    },
+    {
+        "id": "02f8a9d44bb9ba51",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1140,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b95630cb7aef0d63",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1130,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "2313b449cd375c91",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 21",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "d93c9741cebbc2bc",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "4db2e22011de45ea",
+        "type": "function",
+        "z": "4c5594ae3c7017fa",
+        "name": "extract timestamps",
+        "func": "\nlet timeBegin = msg.req.query.begin ? msg.req.query.begin : 0\nlet timeEnd = msg.req.query.end ? (msg.req.query.end ): Date.now()\n\nmsg.payload = {\n    timeBegin,\n    timeEnd\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 360,
+        "wires": [
+            [
+                "f42df2d8c1eed360"
+            ]
+        ]
+    },
+    {
+        "id": "e91d79ede498087f",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "032324092c20dc1f",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 28",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "0d3d0b6f3d9e39bf",
+        "type": "http in",
+        "z": "4c5594ae3c7017fa",
+        "name": "[del] /spi/:id",
+        "url": "/spi/:id",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 1320,
+        "wires": [
+            [
+                "927b1fe3c1408484",
+                "3c636b95995ab6fd"
+            ]
+        ],
+        "info": "# Read spi data of a specific device with begin and end timestamp"
+    },
+    {
+        "id": "3c636b95995ab6fd",
+        "type": "postgresql",
+        "z": "4c5594ae3c7017fa",
+        "name": "delete record",
+        "query": "DELETE FROM raws \nWHERE id='{{msg.req.params.id}}';",
+        "postgreSQLConfig": "d381a5fbe59c4361",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 650,
+        "y": 1320,
+        "wires": [
+            [
+                "a516f72dd936dc9e",
+                "fe82015123a652d5"
+            ]
+        ]
+    },
+    {
+        "id": "71751c5ce3d2cf80",
+        "type": "catch",
+        "z": "4c5594ae3c7017fa",
+        "name": "[delete record] failed",
+        "scope": [
+            "3c636b95995ab6fd"
+        ],
+        "uncaught": false,
+        "x": 690,
+        "y": 1380,
+        "wires": [
+            [
+                "e2f08632f94a24fc",
+                "a516f72dd936dc9e"
+            ]
+        ]
+    },
+    {
+        "id": "a516f72dd936dc9e",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "check query execution",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "e2f08632f94a24fc",
+        "type": "change",
+        "z": "4c5594ae3c7017fa",
+        "name": "Clear payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Bad request, check your request content then try again.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 980,
+        "y": 1380,
+        "wires": [
+            [
+                "c886d99f9b282554"
+            ]
+        ]
+    },
+    {
+        "id": "c886d99f9b282554",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "Bad request",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1150,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "90254f5b89739a60",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 19",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "927b1fe3c1408484",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "fe82015123a652d5",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "200 OK",
+        "statusCode": "200",
+        "headers": {
+            "Content_Type": "application/json"
+        },
+        "x": 1160,
+        "y": 1320,
+        "wires": []
+    },
+    {
+        "id": "0d7c46c52f3b71d4",
+        "type": "http in",
+        "z": "4c5594ae3c7017fa",
+        "name": "[post] /:device",
+        "url": "/:device",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 1500,
+        "wires": [
+            [
+                "f5d20ad6bcfb8155",
+                "90606b0c4814cff6"
+            ]
+        ]
+    },
+    {
+        "id": "a52b12b44e98599b",
+        "type": "http response",
+        "z": "4c5594ae3c7017fa",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 740,
+        "y": 1500,
+        "wires": []
+    },
+    {
+        "id": "f5d20ad6bcfb8155",
+        "type": "change",
+        "z": "4c5594ae3c7017fa",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "device",
+                "pt": "global",
+                "to": "req.params.device",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 1500,
+        "wires": [
+            [
+                "a52b12b44e98599b"
+            ]
+        ]
+    },
+    {
+        "id": "90606b0c4814cff6",
+        "type": "debug",
+        "z": "4c5594ae3c7017fa",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.params.device",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 1540,
         "wires": []
     }
 ]
