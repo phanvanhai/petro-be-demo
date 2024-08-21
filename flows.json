@@ -111,10 +111,10 @@
         "wires": [
             [
                 "b979180e233c1fd5",
-                "fb8996cbb85bcf4c",
-                "08e38b1e157918a7",
                 "f96c4f22d8f17b5d",
-                "a5f856adeb0d4a05"
+                "a5f856adeb0d4a05",
+                "52bb7f76631f8348",
+                "d3c16bf867101ac3"
             ]
         ]
     },
@@ -293,58 +293,6 @@
         "wires": []
     },
     {
-        "id": "fb8996cbb85bcf4c",
-        "type": "switch",
-        "z": "4cb885b752d53fe9",
-        "name": "device 1 switch",
-        "property": "device",
-        "propertyType": "global",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "I2C_DEV",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 560,
-        "y": 400,
-        "wires": [
-            [
-                "fabd833241a87c3d",
-                "a1ad8709baf2b639"
-            ]
-        ]
-    },
-    {
-        "id": "08e38b1e157918a7",
-        "type": "switch",
-        "z": "4cb885b752d53fe9",
-        "name": "device 2 switch",
-        "property": "device",
-        "propertyType": "global",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "ZCHENG_DEV",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 560,
-        "y": 480,
-        "wires": [
-            [
-                "52bb7f76631f8348",
-                "d3c16bf867101ac3"
-            ]
-        ]
-    },
-    {
         "id": "fabd833241a87c3d",
         "type": "function",
         "z": "4cb885b752d53fe9",
@@ -370,7 +318,7 @@
         "type": "function",
         "z": "4cb885b752d53fe9",
         "name": "device 2 decode",
-        "func": "\nconst LED_SEGMENT_BIT_POSITION_ZCHENG = [6, 5, 4, 3, 2, 1, 0, 7];\n\nconst LED_SEGMENT_ENCODE_ZCHENG = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_ZCHENG(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_ZCHENG.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_ZCHENG[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_ZCHENG)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_ZCHENG[key];\n}\n\nfunction decodeFrame_ZCHENG(data) {\n    console.log('decodeFrame_ZCHENG');\n    //let data = dataraw.slice(10);\n    let line1 = val2str_ZCHENG(data[21]) + val2str_ZCHENG(data[20]) + val2str_ZCHENG(data[19]) + val2str_ZCHENG(data[18]) + val2str_ZCHENG(data[17]) + val2str_ZCHENG(data[16]) + val2str_ZCHENG(data[15]) + val2str_ZCHENG(data[14]);\n    let line2 = val2str_ZCHENG(data[13]) + val2str_ZCHENG(data[12]) + val2str_ZCHENG(data[11]) + val2str_ZCHENG(data[10]) + val2str_ZCHENG(data[9]) + val2str_ZCHENG(data[8]) + val2str_ZCHENG(data[7]) + val2str_ZCHENG(data[6]);\n    let line3 = val2str_ZCHENG(data[5]) + val2str_ZCHENG(data[4]) + val2str_ZCHENG(data[3]) + val2str_ZCHENG(data[2]) + val2str_ZCHENG(data[1]) + val2str_ZCHENG(data[0]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nconst LED_SEGMENT_BIT_POSITION_I2C = [2, 6, 5, 4, 1, 3, 7, 0];\n\nconst LED_SEGMENT_ENCODE_I2C = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"10000000\": \"-\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_I2C(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_I2C.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_I2C[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_I2C)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_I2C[key];\n}\n\nfunction decodeFrame_I2C(data) {\n    console.log('decodeFrame_I2C');\n\n    data = data.slice(1);\n    let line1 = val2str_I2C(data[11]) + val2str_I2C(data[12]) + val2str_I2C(data[13]) + val2str_I2C(data[14]) + val2str_I2C(data[15]) + val2str_I2C(data[16]) + val2str_I2C(data[29]) + val2str_I2C(data[30]);\n    let line2 = val2str_I2C(data[17]) + val2str_I2C(data[18]) + val2str_I2C(data[19]) + val2str_I2C(data[20]) + val2str_I2C(data[21]) + val2str_I2C(data[22]) + val2str_I2C(data[23]) + val2str_I2C(data[24]);\n    let line3 = val2str_I2C(data[6]) + val2str_I2C(data[7]) + val2str_I2C(data[8]) + val2str_I2C(data[9]) + val2str_I2C(data[10]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\nfunction getTimestamp(arr) {\n    return String(Date.now());\n    // if (arr.length < 8) {\n    //     return 0;\n    // }\n    // return  1000 * (arr[0] << 56 | arr[1] << 48 | arr[2] << 40 | arr[3] << 32 | arr[4] << 24 | arr[5] << 16 | arr[6] << 8 | arr[7]);\n}\n\nfunction decodePacket(data, decodeFunc) {\n    let screen_list = [];\n    if (data.length < 4) {\n        return [];\n    }\n\n    let frame_number = (data[0] << 8) | data[1];\n    let frame_size = (data[2] << 8) | data[3];\n    let frame_screen_size = frame_size - 10;\n\n    if ((frame_number * frame_size + 4) !== data.length) {\n        console.log('Error size:' + frame_number + 'vs ' + frame_size);\n\n        return [];\n    }\n\n    data = data.slice(4);\n\n    for (let i_frame = 0; i_frame < frame_number; i_frame++) {\n        let offset = i_frame * frame_size;\n\n        let content_size = data[offset];\n        if (frame_screen_size !== content_size) {\n            console.log('Frame error: Content size invalid' + frame_screen_size + 'vs ' + content_size);\n            continue;\n        }\n\n        let flag = data[offset + 1];\n        if (flag !== 0) {\n            console.log('Frame error: Flag != 0');\n            continue;\n        }\n\n        let timestamp = getTimestamp(data.slice(offset + 2, offset + 10));\n\n        let content = decodeFunc(data.slice(offset + 10, offset + frame_size));\n        if (Object.keys(content).length === 0) {\n            continue;\n        }\n        content['time'] = timestamp;\n        screen_list.push(content);\n    }\n\n    return screen_list;\n}\n\nlet payload;\nlet dev = 'ZCHENG_DEV';\n//console.log(dev);\nif (dev === 'I2C_DEV') {\n//    payload = decodeFrame_I2C(msg.payload)\n    payload = decodePacket(msg.payload, decodeFrame_I2C);\n} else if (dev === 'ZCHENG_DEV') {\n    // payload = decodeFrame_ZCHENG(msg.payload)\n    payload = decodePacket(msg.payload, decodeFrame_ZCHENG);\n}\n\nconsole.log(payload);\n\nmsg.payload = payload;\nmsg.device = dev;\nreturn msg;",
+        "func": "const LED_SEGMENT_BIT_POSITION_ZCHENG = [7, 6, 5, 4, 3, 2, 1, 0];\n\nconst LED_SEGMENT_ENCODE_ZCHENG = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction val2str_ZCHENG(value) {\n    let decode_value = 0x00;\n    for (let i = 0; i < LED_SEGMENT_BIT_POSITION_ZCHENG.length; i++) {\n        decode_value |= (((value >> LED_SEGMENT_BIT_POSITION_ZCHENG[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in LED_SEGMENT_ENCODE_ZCHENG)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return LED_SEGMENT_ENCODE_ZCHENG[key];\n}\n\nfunction decodeFrame_ZCHENG(data) {\n    console.log('decodeFrame_ZCHENG');\n    //let data = dataraw.slice(10);\n    let line1 = val2str_ZCHENG(data[21]) + val2str_ZCHENG(data[20]) + val2str_ZCHENG(data[19]) + val2str_ZCHENG(data[18]) + val2str_ZCHENG(data[17]) + val2str_ZCHENG(data[16]) + val2str_ZCHENG(data[15]) + val2str_ZCHENG(data[14]);\n    let line2 = val2str_ZCHENG(data[13]) + val2str_ZCHENG(data[12]) + val2str_ZCHENG(data[11]) + val2str_ZCHENG(data[10]) + val2str_ZCHENG(data[9]) + val2str_ZCHENG(data[8]) + val2str_ZCHENG(data[7]) + val2str_ZCHENG(data[6]);\n    let line3 = val2str_ZCHENG(data[5]) + val2str_ZCHENG(data[4]) + val2str_ZCHENG(data[3]) + val2str_ZCHENG(data[2]) + val2str_ZCHENG(data[1]) + val2str_ZCHENG(data[0]);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3\n    };\n}\n\n\nfunction getTimestamp(arr) {\n    return String(Date.now());\n    // if (arr.length < 8) {\n    //     return 0;\n    // }\n    // return  1000 * (arr[0] << 56 | arr[1] << 48 | arr[2] << 40 | arr[3] << 32 | arr[4] << 24 | arr[5] << 16 | arr[6] << 8 | arr[7]);\n}\n\nfunction decodePacket(data, decodeFunc) {\n    let screen_list = [];\n    if (data.length < 4) {\n        return [];\n    }\n\n    let frame_number = (data[0] << 8) | data[1];\n    let frame_size = 32;\n    let frame_screen_size = frame_size - 10;\n\n    if ((frame_number * frame_size + 4) !== data.length) {\n        console.log('Device 2: Error size:' + frame_number + 'vs ' + frame_size + 'Data Length: ' + data.length);\n\n        return [];\n    }\n\n    data = data.slice(4);\n\n    for (let i_frame = 0; i_frame < frame_number; i_frame++) {\n        console.log(\"Read\");\n        let offset = i_frame * frame_size;\n\n        let content_size = data[offset];\n        if (frame_screen_size !== content_size) {\n            console.log('Frame error: Content size invalid' + frame_screen_size + 'vs ' + content_size);\n            continue;\n        }\n\n        let flag = data[offset + 1];\n        if (flag !== 0) {\n            console.log('Frame error: Flag != 0');\n            continue;\n        }\n\n        let timestamp = getTimestamp(data.slice(offset + 2, offset + 10));\n\n        let content = decodeFunc(data.slice(offset + 10, offset + frame_size));\n        if (Object.keys(content).length === 0) {\n            continue;\n        }\n        content['time'] = timestamp;\n        screen_list.push(content);\n    }\n\n    return screen_list;\n}\n\nlet payload;\nlet dev = 'ZCHENG_DEV';\n//console.log(dev);\nif (dev === 'ZCHENG_DEV') {\n    // payload = decodeFrame_ZCHENG(msg.payload)\n    payload = decodePacket(msg.payload, decodeFrame_ZCHENG);\n}\n\nconsole.log(payload);\n\nmsg.payload = payload;\nmsg.device = dev;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -382,12 +330,13 @@
                 "module": "luxon"
             }
         ],
-        "x": 820,
+        "x": 800,
         "y": 480,
         "wires": [
             [
                 "40908f4642a8c469",
-                "59d4d8a583d88a32"
+                "59d4d8a583d88a32",
+                "002513b2923abd5f"
             ]
         ]
     },
@@ -439,8 +388,8 @@
         "createDir": true,
         "overwriteFile": "false",
         "encoding": "none",
-        "x": 1110,
-        "y": 540,
+        "x": 1090,
+        "y": 600,
         "wires": [
             []
         ]
@@ -501,7 +450,7 @@
         "type": "debug",
         "z": "4cb885b752d53fe9",
         "name": "Link in log",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -509,8 +458,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1220,
-        "y": 480,
+        "x": 1260,
+        "y": 500,
         "wires": []
     },
     {
@@ -640,8 +589,8 @@
         "name": "",
         "server": "21c779325e79f03f",
         "client": "",
-        "x": 80,
-        "y": 1340,
+        "x": 160,
+        "y": 1320,
         "wires": [
             []
         ]
@@ -653,8 +602,8 @@
         "name": "[ws] /spi (res)",
         "server": "21c779325e79f03f",
         "client": "",
-        "x": 1150,
-        "y": 1360,
+        "x": 1130,
+        "y": 1340,
         "wires": []
     },
     {
@@ -665,8 +614,8 @@
         "links": [
             "aa6ebd2d391b487b"
         ],
-        "x": 1045,
-        "y": 1320,
+        "x": 1025,
+        "y": 1300,
         "wires": [
             [
                 "71d4b97001d8b3c0"
@@ -767,7 +716,8 @@
         "name": "tcp msg in ",
         "mode": "link",
         "links": [
-            "b9cab7636c32dff6"
+            "b9cab7636c32dff6",
+            "63788ff077797660"
         ],
         "x": 385,
         "y": 240,
@@ -786,8 +736,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 320,
-        "y": 360,
+        "x": 260,
+        "y": 400,
         "wires": []
     },
     {
@@ -923,7 +873,7 @@
         "type": "debug",
         "z": "4cb885b752d53fe9",
         "name": "debug 24",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -939,7 +889,7 @@
         "type": "debug",
         "z": "4cb885b752d53fe9",
         "name": "debug 25",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -974,7 +924,7 @@
         "type": "debug",
         "z": "4cb885b752d53fe9",
         "name": "debug 26",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1002,6 +952,75 @@
                 "83d15a27a33d4966"
             ]
         ]
+    },
+    {
+        "id": "72f261d5b0a9b8e3",
+        "type": "function",
+        "z": "4cb885b752d53fe9",
+        "name": "deocding and logic processes",
+        "func": "/************************************************************************************\n ************************************************************************************  \n *                                    Decode Functions\n ************************************************************************************\n ************************************************************************************/\n\nconst DEVICE_INFO = {\n    '0001': {\n        'FrameSize': 42,\n        'DecodeFunc': decodeFrame_I2C\n    },\n    '0002': {\n        'FrameSize': 32,\n        'DecodeFunc': decodeFrame_ZCHENG\n    }\n}\n\n/************************************************************************************\n* Device: ZCHENG\n************************************************************************************/\n/*                                      [G, F, E, D, C, B, A, DP] */\nconst LED_SEGMENT_BIT_POSITION_ZCHENG = [7, 6, 5, 4, 3, 2, 1, 0];\n\nconst LED_SEGMENT_ENCODE_ZCHENG = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction decodeFrame_ZCHENG(data) {\n    let line1 = val2str(data[21], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[20], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[19], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[18], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[17], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[16], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[15], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[14], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG);\n    let line2 = val2str(data[13], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[12], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[11], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[10], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[9], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[8], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[7], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[6], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG);\n    let line3 = val2str(data[5], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[4], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[3], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[2], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[1], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG) + val2str(data[0], LED_SEGMENT_BIT_POSITION_ZCHENG, LED_SEGMENT_ENCODE_ZCHENG);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    // Chuan hoa ky tu dat Preset Cost\n    if (line1.length > 0) {\n        if (line1[0] == 'P')\n            line1[0] = 'C';\n    }\n\n    let screen = line1 + \"/\" + line2 + \"/\" + line3;\n\n    if (screen.includes('~')) {\n        return {}\n    }\n\n    return {\n        'cost': line1,\n        'volume': line2,\n        'price': line3,\n        'value': screen\n    };\n}\n\n/************************************************************************************\n* Device: I2C\n************************************************************************************/\n/*                                   [G, F, E, D, C, B, A, DP] */\nconst LED_SEGMENT_BIT_POSITION_I2C = [2, 6, 5, 4, 1, 3, 7, 0];\n\nconst LED_SEGMENT_ENCODE_I2C = {\n    \"00000000\": \"\",\n    \"01111110\": \"0\",\n    \"00001100\": \"1\",\n    \"10110110\": \"2\",\n    \"10011110\": \"3\",\n    \"11001100\": \"4\",\n    \"11011010\": \"5\",\n    \"11111010\": \"6\",\n    \"00001110\": \"7\",\n    \"11111110\": \"8\",\n    \"11011110\": \"9\",\n    \"10000000\": \"-\",\n    \"11110010\": \"E\",\n    \"11100010\": \"F\",\n    \"01110000\": \"L\",\n    \"11100110\": \"P\",\n    \"00000001\": \".\",\n    \"01111111\": \"0.\",\n    \"00001101\": \"1.\",\n    \"10110111\": \"2.\",\n    \"10011111\": \"3.\",\n    \"11001101\": \"4.\",\n    \"11011011\": \"5.\",\n    \"11111011\": \"6.\",\n    \"00001111\": \"7.\",\n    \"11111111\": \"8.\",\n    \"11011111\": \"9.\",\n    \"11110011\": \"E.\",\n    \"11100011\": \"F.\",\n    \"01110001\": \"L.\",\n    \"11100111\": \"P.\"\n};\n\nfunction decodeFrame_I2C(data) {\n    data = data.slice(1);\n    let line1 = val2str(data[11], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[12], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[13], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[14], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[15], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[16], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[29], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[30], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C);\n    let line2 = val2str(data[17], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[18], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[19], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[20], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[21], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[22], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[23], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[24], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C);\n    let line3 = val2str(data[6], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[7], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[8], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[9], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C) + val2str(data[10], LED_SEGMENT_BIT_POSITION_I2C, LED_SEGMENT_ENCODE_I2C);\n\n    console.log('\\t\\tTien:\\t\\t' + line1 + '\\n\\t\\tLit:\\t\\t' + line2 + '\\n\\t\\tDon gia:\\t' + line3);\n\n    // Chuan hoa ky tu dat Preset Cost\n    if (line1.length > 0) {\n        if (line1[0] == 'P')\n            line1[0] = 'C';\n    }\n    let screen = line1 + \"/\" + line2 + \"/\" + line3;\n\n    if (screen.includes('~')) {\n        return {}\n    }\n\n    return {\n        'totalPrice': line1,\n        'volume': line2,\n        'unitPrice': line3,\n        'value': screen\n    };\n}\n\n/************************************************************************************\n* Common\n************************************************************************************/\nfunction getTimestamp(arr) {\n    return String(Date.now());\n    // if (arr.length < 8) {\n    //     return 0;\n    // }\n    // return  1000 * (arr[0] << 56 | arr[1] << 48 | arr[2] << 40 | arr[3] << 32 | arr[4] << 24 | arr[5] << 16 | arr[6] << 8 | arr[7]);\n}\n\nfunction val2str(value, bit_pos, encode_table) {\n    let decode_value = 0x00;\n    for (let i = 0; i < bit_pos.length; i++) {\n        decode_value |= (((value >> bit_pos[i]) & 0x01) << (7 - i)) & 0xFF;\n    }\n\n    let key = decode_value.toString(2).padStart(8, '0');\n    if (!(key in encode_table)) {\n        return '~';  // ky tu chua giai ma duoc\n    }\n    return encode_table[key];\n}\n\nfunction decodePacket(data) {\n    let result = {\n        'has_error': false,\n        'screen_list': []\n    }\n\n    let screen_list = [];\n\n    if (data.length < 4) {\n        // Loi duong truyen -> Bo qua\n        return result;\n    }\n\n    let frame_number = (data[0] << 8) | data[1];\n    let dev_type = ((data[2] << 8) | data[3]).toString(16).padStart(4, '0');\n\n    let frame_size = DEVICE_INFO[dev_type].FrameSize;\n    let frame_screen_size = frame_size - 10;\n\n    if ((frame_number * frame_size + 4) !== data.length) {\n        console.log('Error size:' + frame_number + 'vs ' + frame_size);\n\n        // Loi duong truyen -> Bo qua\n        return result;\n    }\n\n    data = data.slice(4);\n\n    for (let i_frame = 0; i_frame < frame_number; i_frame++) {\n        let offset = i_frame * frame_size;\n\n        let content_size = data[offset];\n        if (frame_screen_size !== content_size) {\n            console.log('Frame error: Content size invalid' + frame_screen_size + 'vs ' + content_size);\n            result.has_error = true;\n            continue;\n        }\n\n        let flag = data[offset + 1];\n        if (flag !== 0) {\n            console.log('Frame error: Flag != 0');\n            result.has_error = true;\n            continue;\n        }\n\n        let timestamp = getTimestamp(data.slice(offset + 2, offset + 10));\n\n        let content = DEVICE_INFO[dev_type].DecodeFunc((data.slice(offset + 10, offset + frame_size)));\n        if (Object.keys(content).length === 0) {\n            result.has_error = true;\n            continue;\n        }\n\n        content['time'] = timestamp;\n        screen_list.push(content);\n    }\n\n    result.screen_list = screen_list;\n    return result;\n}\n\nfunction parseFloatFromStr(str) {\n    if (str == '')\n        return -1;\n\n    if (str[0] < '0' || str['0'] > '9') {\n        str = str.slice(1);\n    }\n\n    let arrStr = str.split('.');\n    let numStr = str;\n    if (arrStr.length > 2) {\n        numStr = arrStr.slice(0, - 1).join('') + '.' + arrStr[arrStr.length - 1];\n    }\n\n    var num = parseFloat(numStr);\n\n    if (isNaN(num)) {\n        return -1;\n    }\n\n    return num;\n}\n\nfunction Decoder(data) {\n    let decoded_screen = decodePacket(data);\n    let has_error = decoded_screen.has_error;\n    let result_list = [];\n\n    if (decoded_screen.screen_list.length > 0) {\n\n        for (let screen of decoded_screen.screen_list) {\n            let scr = {\n                'type': 'UNKNOWN',\n                'screen': screen.value,\n                'cost': parseFloatFromStr(screen.cost),\n                'volume': parseFloatFromStr(screen.volume),\n                'price': parseFloatFromStr(screen.price),\n                'time': screen.time\n            }\n\n            if (screen.value.includes('E')) {\n                scr.type = 'ERROR'\n            } else {\n                // Kiem tra man hinh la Reset/Preset/Normal\n                if ((screen.cost == '' && screen.volume == '')\n                    || (screen.cost.includes('8.8.8.8') && screen.volume.includes('8.8.8.8'))\n                    || (scr.cost == 0 && scr.volume == 0 && scr.price > 0)) {\n\n                    scr.type = 'RESET';\n                } else if (screen.volume.includes('L') && scr.price > 0) {\n                    if (((scr.cost == 0 || screen.cost == 'C' || screen.cost == '') && scr.volume > 0)\n                        || ((scr.volume == 0) && scr.cost > 0)) {\n                        scr.type = 'PRESET';\n                        scr.cost = 0;\n                    }\n                } else if (screen.volume.includes('C') && scr.price > 0) {\n                    if (((scr.volume == 0 || screen.volume == 'L' || screen.volume == '') && scr.cost > 0)\n                        || ((scr.cost == 0) && scr.volume > 0)) {\n                        scr.type = 'PRESET';\n                        scr.volume = 0;\n                    }\n                } else if (scr.cost > 0 && scr.volume > 0 && scr.price > 0 && !scr.screen.includes('C') && !scr.screen.includes('L')) {\n                    if ((scr.volume * scr.price - 1 <= scr.cost) && (scr.cost <= scr.volume * scr.price + 1)) {\n                        scr.type = 'NORMAL';\n                    } else {\n                        scr.type = 'IGNORE';\n                        has_error = true;\n                    }\n                }\n            }\n\n            if (scr.type != 'IGNORE') {\n                result_list.push(scr);\n            }\n        }\n    }\n\n    return {\n        'has_error': has_error,\n        'screen_list': result_list\n    }\n}\n\n/************************************************************************************/\n\n\n/************************************************************************************\n ************************************************************************************  \n *                                    DetectEvent Functions\n ************************************************************************************\n ************************************************************************************/\nconst N_BUFFER = 10;\n\nvar Screen_buffer = global.get(\"screen_buffer\");\n\nfunction EventDetection(screen_list) {\n    let event_list = [];\n\n    for (let screen of screen_list) {\n        if (Screen_buffer.length < N_BUFFER) {\n            Screen_buffer.push(screen);\n            continue;\n        }\n\n        let event = {\n            'event': 'NONE',\n            'screen': screen.screen,\n            'cost': screen.cost,\n            'volume': screen.volume,\n            'price': screen.price,\n            'time': screen.time\n        }\n\n        Screen_buffer.shift();\n        Screen_buffer.push(screen);\n\n        let is_same_type = true;\n        let is_same_screen = true;\n        let is_cost_increase = true;\n\n        for (let i = 1; i < Screen_buffer.length; i++) {\n            if (Screen_buffer[i].type != Screen_buffer[0].type) {\n                is_same_type = false;\n                break;\n            }\n\n            if (Screen_buffer[i].screen != Screen_buffer[0].screen) {\n                is_same_screen = false;\n            }\n\n            if (Screen_buffer[i].cost < Screen_buffer[i - 1].cost) {\n                is_cost_increase = false;\n            }\n        }\n\n        if (!is_same_type) break;\n\n        if (is_same_screen) {\n            switch (Screen_buffer[0].type) {\n                case 'UNKNOWN':\n                    event.event = 'UNKNOWN';\n                    break;\n                case 'ERROR':\n                    event.event = 'ERROR';\n                    break;\n                case 'PRESET':\n                    event.event = 'PRESET';\n                    break;\n                case 'RESET':\n                    event.event = 'RESET';\n                    break;\n                case 'NORMAL':\n                    event.event = 'PAUSE';\n                    break;\n            }\n        } else if (Screen_buffer[0].type == 'NORMAL') {\n            if (is_cost_increase)\n                event.event = 'INCREASE';\n            else\n                event.event = 'INVALID';\n\n        }\n        else if (Screen_buffer[0].type == 'RESET') {\n            event.event = 'RESET';\n        }\n\n        if (event.event != 'NONE') {\n            event_list.push(event);\n        }\n    }\n\n    global.set('screen_buffer', Screen_buffer);\n\n    return event_list;\n}\n\n/************************************************************************************/\n\n\n/************************************************************************************\n ************************************************************************************  \n *                                    Logic Processing Functions\n ************************************************************************************\n ************************************************************************************/\nlet LastState = global.get(\"last_state\");\nlet LastEvent = global.get(\"last_event\");\nlet tmpPreset = global.get(\"tmp_preset\");\nlet tmpLog = global.get(\"tmp_log\");\nlet isFirstStop = global.get(\"is_first_stop\");\nlet isPausing = global.get(\"is_pausing\");\nlet pauseTime = global.get(\"pause_time\");\n\nfunction LogicProcessing(data) {\n    let decode_result = Decoder(data);\n\n    let action_list = [];\n\n    if (decode_result.has_error) {\n        action_list.push({\n            'action': 'ADD',\n            'tablename': 'RAWS',\n            'content': {\n                'received_timestamp': Date.now(),\n                'buffer_arr': data,\n                'decode_error': true,\n                'logic_error': false,\n                'note': ''\n            }\n        })\n    }\n\n    let event_list = EventDetection(decode_result.screen_list);\n\n    for (let e of event_list) {\n        // Update Machine STATE\n        let nextState = LastState;\n\n        if (LastState == 'IDLE') {\n            switch (e.event) {\n                case 'UNKNOWN':\n                case 'ERROR':\n                case 'INCREASE':\n                case 'PAUSE':\n                case 'INVALID':\n                    break;\n                case 'PRESET':\n                    nextState = 'PRESET';\n                    break;\n                case 'RESET':\n                    nextState = 'RESET';\n                    break;\n                default:\n                    break;\n            }\n        }\n        else if (LastState == 'PRESET') {\n            switch (e.event) {\n                case 'UNKNOWN':\n                case 'ERROR':\n                case 'INCREASE':\n                case 'PAUSE':\n                case 'INVALID':\n                    nextState = 'IDLE';\n                    break;\n                case 'RESET':\n                    nextState = 'RESET';\n                    break;\n                default:\n                    break;\n            }\n        }\n        else if (LastState == 'RESET') {\n            switch (e.event) {\n                case 'PRESET':\n                    nextState = 'PRESET';\n                    break;\n                case 'UNKNOWN':\n                case 'ERROR':\n                case 'PAUSE':\n                case 'INVALID':\n                    nextState = 'IDLE';\n                    break;\n                case 'INCREASE':\n                    isPausing = false;\n                    nextState = 'RUN';\n                    break;\n                default:\n                    break;\n            }\n        }\n        else if (LastState == 'RUN') {\n            switch (e.event) {\n                case 'PRESET':\n                    nextState = 'PRESET';\n                    isPausing = false;\n                    break;\n                case 'RESET':\n                    nextState = 'RESET';\n                    isPausing = false;\n                    break;\n                case 'UNKNOWN':\n                    nextState = 'IDLE';\n                    isPausing = false;\n                    break;\n                case 'INCREASE':\n                    isPausing = false;\n                    break;\n                case 'PAUSE':\n                    if (isPausing) {\n                        let currTime = Date.now();\n                        if ((currTime - pauseTime) / 1000 > 5) {\n                            nextState = 'STOP';\n                            isPausing = false;\n                        }\n                    }\n                    else {\n                       var pausingTime = Date.now();\n                        isPausing = true;\n                    }\n                    break;\n                case 'ERROR':\n                case 'INVALID':\n                    nextState = 'ERROR';\n                    isPausing = false;\n                    break;\n            }\n        }\n        else if (LastState == 'ERROR') {\n            switch (e.event) {\n                case 'ERROR':\n                    break;\n                case 'INVALID':\n                    break;\n                case 'PAUSE':\n                    nextState = 'STOP';\n                    break;\n                case 'UNKNOWN':\n                    nextState = 'IDLE';\n                    break;\n                case 'PRESET':\n                    nextState = 'PRESET';\n                    break;\n                case 'INCREASE':\n                    nextState = 'RUN';\n                    isPausing = false;\n                    break;\n                case 'RESET':\n                    nextState = 'RESET';\n                    break;\n            }\n        }\n        else if (LastState == 'STOP') {\n            switch (e.event) {\n                case 'PAUSE':\n                    break;\n                case 'ERROR':\n                case 'INVALID':\n                    nextState = 'ERROR';\n                    break;\n                case 'RESET':\n                    nextState = 'RESET';\n                    break;\n                case 'UNKNOWN':\n                    nextState = 'IDLE';\n                    break;\n                case 'PRESET':\n                    nextState = 'PRESET';\n                    break;\n                case 'INCREASE':\n                    nextState = 'RUN';\n                    break;\n            }\n        }\n\n\n        let cb_actions = ActionCallbacks(LastEvent, e, LastState, nextState, data);\n        if (cb_actions.length > 0) {\n            action_list.push(cb_actions);\n        }\n\n        LastState = nextState;\n        LastEvent = e;\n    }\n\n    global.set(\"last_state\", LastState);\n    global.set(\"last_event\", LastEvent);\n    global.set(\"tmp_preset\", tmpPreset);\n    global.set(\"tmp_log\", tmpLog);\n    global.get(\"is_pausing\", isPausing);\n    global.get(\"pause_time\", pauseTime);\n\n    return action_list;\n}\n\nfunction ActionCallbacks(last_event, current_event, last_sate, current_state, data) {\n    let action_list = [];\n\n    if (current_state == 'IDLE') {\n        tmpPreset = {\n            'prepaid_total_cost': 0,\n            'prepaid_fuel_volume': 0,\n            'prepaid_fuel_unit_price': 0\n        }\n    } else if (current_state == 'PRESET') {\n        tmpPreset = {\n            'prepaid_total_cost': current_event.cost,\n            'prepaid_fuel_volume': current_event.volume,\n            'prepaid_fuel_unit_price': current_event.price\n        }\n    } else if (last_sate == 'RESET' && current_state == 'RUN') {\n        isFirstStop = true;\n        tmpLog = {\n            'log_type': 0,\n            'total_cost': current_event.cost,\n            'fuel_volume': current_event.volume,\n            'fuel_unit_price': current_event.price,\n            'prepaid_total_cost': tmpPreset.prepaid_total_cost,\n            'prepaid_fuel_volume': tmpPreset.prepaid_fuel_volume,\n            'prepaid_fuel_unit_price': tmpPreset.prepaid_fuel_unit_price,\n            'timestamp_ms': current_event.time\n        };\n\n        tmpPreset = {\n            'prepaid_total_cost': 0,\n            'prepaid_fuel_volume': 0,\n            'prepaid_fuel_unit_price': 0\n        };\n\n        action_list.push({\n            'action': 'ADD',\n            'tablename': 'LOGS',\n            'content': tmpLog\n        });\n\n    } else if (last_sate == 'RUN' && current_state == 'RUN') {\n        tmpLog.total_cost = current_event.cost;\n        tmpLog.fuel_volume = current_event.volume;\n        tmpLog.fuel_unit_price = current_event.price;\n    } else if (last_sate == 'RUN' && (current_state == 'STOP' || current_state == 'ERROR')) {\n        tmpLog.total_cost = current_event.cost;\n        tmpLog.fuel_volume = current_event.volume;\n        tmpLog.fuel_unit_price = current_event.price;\n\n        if (isFirstStop) {\n            isFirstStop = false;\n\n            action_list.push({\n                'action': 'UPDATE',\n                'tablename': 'LOGS',\n                'content': tmpLog\n            });\n        }\n\n        if (current_state == 'ERROR') {\n            action_list.push({\n                'action': 'ADD',\n                'tablename': 'SUPPLEMENTARY_LOGS',\n                'content': tmpLog\n            });\n            action_list.push({\n                'action': 'ADD',\n                'tablename': 'RAWS',\n                'content': {\n                    'received_timestamp': Date.now(),\n                    'buffer_arr': data,\n                    'decode_error': false,\n                    'logic_error': true,\n                    'note': ''\n                }\n            });\n        }\n    } else if (last_sate == 'ERROR' && current_state == 'ERROR') {\n        if (last_event.screen != current_event.screen) {\n            tmpLog.total_cost = current_event.cost;\n            tmpLog.fuel_volume = current_event.volume;\n            tmpLog.fuel_unit_price = current_event.price;\n            tmpLog.type = 1;\n\n            action_list.push({\n                'action': 'ADD',\n                'tablename': 'SUPPLEMENTARY_LOGS',\n                'content': tmpLog\n            });\n        }\n    }\n\n    global.set(\"is_first_stop\", isFirstStop);\n\n\n    return action_list;\n}\n/************************************************************************************/\n\n\n/************************************************************************************\n ************************************************************************************  \n *                                    Main Functions\n ************************************************************************************\n ************************************************************************************/\n\nlet action_list = LogicProcessing(msg.payload);\nmsg.payload = action_list;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 1480,
+        "wires": [
+            [
+                "adadbcf60efc4124"
+            ]
+        ]
+    },
+    {
+        "id": "002513b2923abd5f",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "debug 29",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "63788ff077797660",
+        "type": "link in",
+        "z": "4cb885b752d53fe9",
+        "name": "link in 1",
+        "links": [
+            "f96c4f22d8f17b5d"
+        ],
+        "x": 535,
+        "y": 1480,
+        "wires": [
+            [
+                "72f261d5b0a9b8e3"
+            ]
+        ]
+    },
+    {
+        "id": "adadbcf60efc4124",
+        "type": "debug",
+        "z": "4cb885b752d53fe9",
+        "name": "decode test",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1030,
+        "y": 1480,
+        "wires": []
     },
     {
         "id": "8b9b5d7230cb41fc",
